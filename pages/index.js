@@ -14,7 +14,7 @@ import BlockTravelExperts from '../components/BlockTravelExperts/BlockTravelExpe
 import BlockSaleTours from '../components/BlockSaleTours/BlockSaleTours'
 import BlockFeedback from '../components/BlockFeedback/BlockFeedback'
 import BlockMoodTours from '../components/BlockMoodTours/BlockMoodTours'
-import BlockFindTour from '../components/BlockFindTour/BlockMoodTours'
+import BlockFindTour from '../components/BlockFindTour/BlockFindTour'
 import MainLayout from '../layouts/MainLayout'
 
 export default function Home() {

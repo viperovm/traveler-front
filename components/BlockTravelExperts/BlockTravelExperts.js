@@ -1,10 +1,10 @@
-import styles from './BlockFeedback.module.css';
+import styles from './BlockTravelExperts.module.css';
 import cn from 'classnames';
-import { InfoBlock } from '../InfoBlock/InfoBlock'
-import { Htag } from '../Htag/Htag'
-import { CardCollection } from '../CardCollection/CardCollection'
+import { InfoBlock } from '../InfoBlock/InfoBlock';
+import { Htag, } from '../Htag/Htag';
+import { CardCollection } from '../CardCollection/CardCollection';
 
-export const BlockFeedback = ({ block_style, children, className, ...props }) => {    
+export const BlockTravelExperts = ({ block_style, children, className, ...props }) => {    
     return (
         <div
             className={ cn(styles.block_viewed, className, {
@@ -17,14 +17,14 @@ export const BlockFeedback = ({ block_style, children, className, ...props }) =>
                 {children}
                     <InfoBlock border_color='orange_left_border'>
                         <Htag tag='h2'>
-                            Отзывы наших путешественников
+                            Популярные тревел-эксперты
                         </Htag>
                         <Htag tag='h4'>
-                            Все самое интересное
+                            Лучшие из лучших
                         </Htag>
-                    </InfoBlock> 
-                    <CardCollection name_block='feedback' />
+                    </InfoBlock>                     
             </div> 
+            <CardCollection name_block='experts' />
             
         </div>
     );
