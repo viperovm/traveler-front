@@ -1,6 +1,7 @@
 import styles from './BlockAdvantage.module.css';
 import cn from 'classnames';
-import { InfoBlock, Htag } from '..';
+import InfoBlock from '../InfoBlock/InfoBlock';
+import Htag from '../Htag/Htag';
 import LockIconBig from '/public/lock-big.svg';
 import SmileIconBig from '/public/smile-big.svg';
 import UserIconBig from '/public/user-big.svg';
