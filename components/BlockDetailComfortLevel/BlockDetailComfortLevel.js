@@ -1,7 +1,6 @@
 import styles from './BlockDetailComfortLevel.module.css';
-import { BlockDetailComfortLevelProps } from './BlockDetailComfortLevel.props';
 import cn from 'classnames';
-import { Htag } from '..';
+import Htag from '../Htag/Htag'
 import StarIconBig from '/public/greenstarbig.svg';
 import FlagIconBig from '/public/FlagBig.svg';
 

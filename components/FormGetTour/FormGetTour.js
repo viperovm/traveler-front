@@ -1,5 +1,8 @@
 import styles from './FormGetTour.module.css';
-import { Input, Button, BlockCalendar, BlockChangePlace } from '../../components';
+import { Input} from '../Input/Input';
+import { Button } from '../Button/Button'
+import { BlockCalendar } from '../BlockCalendar/BlockCalendar'
+import { BlockChangePlace } from '../BlockChangePlace/BlockChangePlace'
 import MagnifierIcon from '/public/magnifier.svg';
 import cn from 'classnames';
 

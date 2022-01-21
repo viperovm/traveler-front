@@ -1,5 +1,4 @@
 import styles from './BlockExpertDetail.module.css'
-import { BlockExpertDetailProps } from './BlockExpertDetail.props'
 import cn from 'classnames'
 import { Htag, P, CardCollection } from '../../components/'
 import ClockIcon from '../../public/clock_big.svg'
@@ -43,8 +42,8 @@ export const BlockExpertDetail = ({ block_style, children, className }) => {
                 задайте вопрос по любой мелочи :)
               </P>
               <P>
-                Если ты такой же фанат новых впечатлений и криков "ВАУ!!
-                Охренеть, вот это ...."– то просто выбирай страну, где ещё не
+                Если ты такой же фанат новых впечатлений и криков «ВАУ!!
+                Охренеть, вот это ....»– то просто выбирай страну, где ещё не
                 был и поехали вместе!
               </P>{' '}
               <br />

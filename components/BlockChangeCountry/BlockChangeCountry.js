@@ -1,7 +1,7 @@
 import styles from './BlockChangeCountry.module.css';
-import { BlockChangeCountryProps } from './BlockChangeCountry.props';
 import cn from 'classnames';
-import { InfoBlock, Htag } from '..';
+import InfoBlock from '../InfoBlock/InfoBlock'
+import Htag from '../Htag/Htag'
 import EuropeIcon from '/public/europe.svg';
 import AsiaIcon from '/public/asia.svg';
 import AfricaIcon from '/public/africa.svg';

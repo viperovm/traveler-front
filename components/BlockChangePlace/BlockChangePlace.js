@@ -1,6 +1,5 @@
 import styles from './BlockChangePlace.module.css';
-import { BlockChangePlaceProps } from './BlockChangePlace.props';
-import { BlockFiltersTypeTour } from '../../components/';
+import { BlockFiltersTypeTour } from '../BlockFiltersTypeTour/BlockFiltersTypeTour'
 import cn from 'classnames';
 
 
