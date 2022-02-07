@@ -1,13 +1,36 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Logo from '../../components/logo/Logo'
 import MainNav from '../../components/mainNav/MainNav'
+import Link from 'next/link'
+import {load_user} from '../../redux/actions/authActions'
 
-export default function Header() {
-    const [isOpened, setIsOpened] = useState(false)
+import { connect } from 'react-redux'
 
-    const toggleOpened = () => {
-        setIsOpened(!isOpened)
+const Header = ({ isAuthenticated, load_user, expert }) => {
+
+  const [avatarLetter, setAvatarLetter] = useState('')
+
+  const [isOpened, setIsOpened] = useState(false)
+
+  useEffect(() => {
+    load_user()
+  }, [])
+
+  useEffect(() => {
+    if (expert) {
+      if (expert.name) {
+        setAvatarLetter(expert.name[0])
+      } else if (expert.email) {
+        setAvatarLetter(expert.email[0])
+      } else {
+        setAvatarLetter('#')
+      }
     }
+  }, [expert])
+
+  const toggleOpened = () => {
+    setIsOpened(!isOpened)
+  }
   return (
     <>
       <header className='header'>
@@ -39,10 +62,31 @@ export default function Header() {
               <div className='buttons_block_liked'></div>
             </div>
 
-            <div className='login_block'>Вход</div>
+            {isAuthenticated ? (
+              <div className='margin-left'>
+                <div className='user-account-name-wrapper'>
+                  <Link href='/account'>
+                    <a>
+                      <div className='user-account-avatar'>{avatarLetter}</div>
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <Link href='/login'>
+                <a className='login_block'>Вход</a>
+              </Link>
+            )}
           </div>
         </div>
       </header>
     </>
   )
 }
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  expert: state.auth.expert,
+})
+
+export default connect(mapStateToProps, { load_user })(Header)

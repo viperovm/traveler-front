@@ -3,17 +3,12 @@ import cn from 'classnames';
 import ArrowIconLeft from '/public/left_arrow.svg';
 import ArrowIconRight from '/public/right_arrow.svg';
 
-
-    
-
-
 export const BlockCalendar = ({ children, className, ...props }) => {    
     return (
         <div
             className={ cn(styles.calendar, className, {
                 
             })}
-            {...props}
             
         >    
             {children}
@@ -78,3 +73,5 @@ export const BlockCalendar = ({ children, className, ...props }) => {
         </div>
     );
 };
+
+export default BlockCalendar

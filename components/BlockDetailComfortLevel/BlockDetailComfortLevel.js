@@ -56,3 +56,5 @@ export const BlockDetailComfortLevel = ({ block_style, children, className, ...p
         </div>
     );
 };
+
+export default BlockDetailComfortLevel

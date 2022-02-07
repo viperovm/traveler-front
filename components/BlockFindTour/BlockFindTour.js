@@ -1,10 +1,10 @@
 import styles from './BlockFindTour.module.css';
 import cn from 'classnames';
-import { InfoBlock } from '../InfoBlock/InfoBlock'
-import { Htag } from '../Htag/Htag'
-import { FormGetTour } from '../FormGetTour/FormGetTour'
+import InfoBlock from '../InfoBlock/InfoBlock'
+import Htag from '../Htag/Htag'
+import FormGetTour from '../FormGetTour/FormGetTour'
 
-export const BlockFindTour = ({ block_style, children, className, ...props }) => {    
+const BlockFindTour = ({ block_style, children, className, ...props }) => {    
     return (
         <div
             className={ cn(styles.block_viewed, className, {
@@ -31,3 +31,5 @@ export const BlockFindTour = ({ block_style, children, className, ...props }) =>
         </div>
     );
 };
+
+export default BlockFindTour

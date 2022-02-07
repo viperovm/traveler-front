@@ -1,8 +1,8 @@
 import styles from './BlockFeedback.module.css';
 import cn from 'classnames';
-import { InfoBlock } from '../InfoBlock/InfoBlock'
-import { Htag } from '../Htag/Htag'
-import { CardCollection } from '../CardCollection/CardCollection'
+import InfoBlock from '../InfoBlock/InfoBlock'
+import Htag from '../Htag/Htag'
+import CardCollection from '../CardCollection/CardCollection'
 
 export const BlockFeedback = ({ block_style, children, className, ...props }) => {    
     return (
@@ -29,3 +29,5 @@ export const BlockFeedback = ({ block_style, children, className, ...props }) =>
         </div>
     );
 };
+
+export default BlockFeedback

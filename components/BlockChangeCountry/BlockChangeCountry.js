@@ -84,3 +84,5 @@ export const BlockChangeCountry = ({ block_style, children, className }) => {
         </div>
     );
 };
+
+export default BlockChangeCountry

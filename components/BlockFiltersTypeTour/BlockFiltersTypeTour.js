@@ -2,7 +2,7 @@ import styles from './BlockFiltersTypeTour.module.css';
 import cn from 'classnames';
 
 
-export const BlockFiltersTypeTour = ({ block_style, children, className, ...props }) => {     
+const BlockFiltersTypeTour = ({ block_style, children, className, ...props }) => {     
     return (
         <div
             className={ cn(styles.block_viewed, className, {
@@ -27,3 +27,5 @@ export const BlockFiltersTypeTour = ({ block_style, children, className, ...prop
         </div>
     );
 };
+
+export default BlockFiltersTypeTour

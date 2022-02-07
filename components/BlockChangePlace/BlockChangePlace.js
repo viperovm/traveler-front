@@ -1,10 +1,6 @@
 import styles from './BlockChangePlace.module.css';
-import { BlockFiltersTypeTour } from '../BlockFiltersTypeTour/BlockFiltersTypeTour'
+import BlockFiltersTypeTour from '../BlockFiltersTypeTour/BlockFiltersTypeTour'
 import cn from 'classnames';
-
-
-    
-
 
 export const BlockChangePlace = ({ children, className }) => {    
     return (
@@ -60,20 +56,4 @@ export const BlockChangePlace = ({ children, className }) => {
     );
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default BlockChangePlace

@@ -1,9 +1,9 @@
 import styles from './BlockExpertsFeedback.module.css';
 import cn from 'classnames';
-import { InfoBlock } from '../InfoBlock/InfoBlock'
-import { Htag } from '../Htag/Htag'
-import { P } from '../P/P'
-import { Rating } from '..Rating/Rating'
+import InfoBlock from '../InfoBlock/InfoBlock'
+import Htag from '../Htag/Htag'
+import P from '../P/P'
+import Rating from '..Rating/Rating'
 
 export const BlockExpertsFeedback = ({ block_style, children, className }) => {    
     return (
@@ -118,3 +118,5 @@ export const BlockExpertsFeedback = ({ block_style, children, className }) => {
       </div>
     )
 };
+
+export default BlockExpertsFeedback

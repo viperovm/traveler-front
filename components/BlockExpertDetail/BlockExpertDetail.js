@@ -1,6 +1,8 @@
 import styles from './BlockExpertDetail.module.css'
 import cn from 'classnames'
-import { Htag, P, CardCollection } from '../../components/'
+import Htag from '../../components/'
+import P from '../../components/'
+import CardCollection  from '../../components/'
 import ClockIcon from '../../public/clock_big.svg'
 import ChatIcon from '../../public/chat.svg'
 import DocIcon from '../../public/doc.svg'
@@ -8,6 +10,7 @@ import TelIcon from '../../public/tel.svg'
 import MailIcon from '../../public/mail.svg'
 
 export const BlockExpertDetail = ({ block_style, children, className }) => {
+
   return (
     <div
       className={cn(styles.block_viewed, className, {
@@ -89,3 +92,5 @@ export const BlockExpertDetail = ({ block_style, children, className }) => {
     </div>
   )
 }
+
+export default BlockExpertDetail
