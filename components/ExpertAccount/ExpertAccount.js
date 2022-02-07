@@ -17,8 +17,6 @@ const ExpertAccount = ({
   logout,
   letter,
 }) => {
-  console.log(22, letter)
-  console.log(33, expert)
 
   useEffect(() => {
     checkAuthenticated()
@@ -44,9 +42,7 @@ const ExpertAccount = ({
                     borderRadius: '50%',
                   }}
                 />
-              ) : (
-                { avatarLetter }
-              )}
+              ) : letter}
             </div>
             <div className='account_name'>
               <h3>
