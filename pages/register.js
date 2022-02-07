@@ -108,7 +108,7 @@ const Register = ({ signUp }) => {
                         type='password'
                         className='auth_password'
                         placeholder='Повторить пароль'
-                        value={data.password}
+                        value={data.re_password}
                         onChange={handleData}
                       />
                       <div className='input-icon auth_password' />

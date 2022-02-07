@@ -1,5 +1,5 @@
-import {useState, useEffect} from 'react'
-import MainLayout from "../layouts/MainLayout"
+import { useState, useEffect } from 'react'
+import MainLayout from '../layouts/MainLayout'
 
 import { connect } from 'react-redux'
 import SideBar from '../components/SideBar'
@@ -13,23 +13,21 @@ import Props from '../components/ExpertAccount/Props'
 import Requests from '../components/ExpertAccount/Requests'
 import MyTeam from '../components/ExpertAccount/MyTeam'
 
-import { load_user } from '../redux/actions/authActions'
+import { load_expert } from '../redux/actions/authActions'
 
-const Account = ({ load_user, expert }) => {
+const Account = ({ load_expert, expert }) => {
   const [active, setActive] = useState('account')
   const [page, setPage] = useState(<ExpertAccount expert={expert} />)
   const [avatarLetter, setAvatarLetter] = useState('')
 
-
   useEffect(() => {
-    load_user()
+    load_expert()
   }, [])
-
 
   useEffect(() => {
     if (expert) {
-      if (expert.name) {
-        setAvatarLetter(expert.name[0])
+      if (expert && expert.first_name) {
+        setAvatarLetter(expert.first_name[0])
       } else if (expert.email) {
         setAvatarLetter(expert.email[0])
       } else {
@@ -37,8 +35,6 @@ const Account = ({ load_user, expert }) => {
       }
     }
   }, [expert])
-
-  
 
   return (
     <MainLayout>
@@ -58,31 +54,14 @@ const Account = ({ load_user, expert }) => {
               {active === 'account' && (
                 <ExpertAccount expert={expert} letter={avatarLetter} />
               )}
-              {active === 'tours' && (
-                <MyTours expert={expert} />
-              )}
-              {active === 'chat' && (
-                <Chat expert={expert} />
-              )}
-              {active === 'profile' && (
-                <MyProfile expert={expert} />
-              )}
-              {active === 'orders' && (
-                <Orders expert={expert} />
-              )}
-              {active === 'settings' && (
-                <Settings expert={expert} />
-              )}
-              {active === 'props' && (
-                <Props expert={expert} />
-              )}
-              {active === 'requests' && (
-                <Requests expert={expert} />
-              )}
-              {active === 'team' && (
-                <MyTeam expert={expert} />
-              )}
-             
+              {active === 'tours' && <MyTours expert={expert} />}
+              {active === 'chat' && <Chat expert={expert} />}
+              {active === 'profile' && <MyProfile expert={expert} />}
+              {active === 'orders' && <Orders expert={expert} />}
+              {active === 'settings' && <Settings expert={expert} />}
+              {active === 'props' && <Props expert={expert} />}
+              {active === 'requests' && <Requests expert={expert} />}
+              {active === 'team' && <MyTeam expert={expert} />}
             </div>
           </div>
         </section>
@@ -92,7 +71,7 @@ const Account = ({ load_user, expert }) => {
 }
 
 const mapStateToProps = state => ({
-  expert: state.auth.expert
+  expert: state.auth.expert,
 })
 
-export default connect(mapStateToProps, { load_user })(Account)
+export default connect(mapStateToProps, { load_expert })(Account)

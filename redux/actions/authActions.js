@@ -5,7 +5,7 @@ const API_URL = 'http://x3mart.ru'
 
 
 
-export const load_user = () => async dispatch => {
+export const load_expert = () => async dispatch => {
   if (localStorage.getItem('access')) {
     const config = {
       headers: {
@@ -17,7 +17,7 @@ export const load_user = () => async dispatch => {
 
     try {
       const res = await axios.get(
-        `${API_URL}/auth/users/me/`,
+        `${API_URL}/api/experts/me/`,
         config
       )
 
@@ -83,7 +83,7 @@ export const login = data => async dispatch => {
       payload: res.data,
     })
 
-    dispatch(load_user())
+    dispatch(load_expert())
   } catch (err) {
     dispatch({
       type: t.LOGIN_FAIL,

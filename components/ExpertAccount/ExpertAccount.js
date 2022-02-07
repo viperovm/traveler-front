@@ -32,9 +32,26 @@ const ExpertAccount = ({
       <div className='account_block_right'>
         <div className='account_block_right_head'>
           <div className='user-account-name-wrapper'>
-            <div className='user-account-avatar'>{letter}</div>
+            <div className='user-account-avatar'>
+              {expert && expert.avatar ? (
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    backgroundImage: `url('${expert.avatar}')`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                    borderRadius: '50%',
+                  }}
+                />
+              ) : (
+                { avatarLetter }
+              )}
+            </div>
             <div className='account_name'>
-              <h3>{expert && expert.name}</h3>
+              <h3>
+                {expert && expert.first_name} {expert && expert.last_name}
+              </h3>
               <h4>{expert && expert.email}</h4>
             </div>
           </div>

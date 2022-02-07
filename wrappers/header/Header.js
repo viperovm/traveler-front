@@ -2,18 +2,18 @@ import {useState, useEffect} from 'react'
 import Logo from '../../components/logo/Logo'
 import MainNav from '../../components/mainNav/MainNav'
 import Link from 'next/link'
-import {load_user} from '../../redux/actions/authActions'
+import { load_expert } from '../../redux/actions/authActions'
+import Image from 'next/image'
 
 import { connect } from 'react-redux'
 
-const Header = ({ isAuthenticated, load_user, expert }) => {
-
+const Header = ({ isAuthenticated, load_expert, expert }) => {
   const [avatarLetter, setAvatarLetter] = useState('')
 
   const [isOpened, setIsOpened] = useState(false)
 
   useEffect(() => {
-    load_user()
+    load_expert()
   }, [])
 
   useEffect(() => {
@@ -67,7 +67,22 @@ const Header = ({ isAuthenticated, load_user, expert }) => {
                 <div className='user-account-name-wrapper'>
                   <Link href='/account'>
                     <a>
-                      <div className='user-account-avatar'>{avatarLetter}</div>
+                      <div className='user-account-avatar'>
+                        {expert.avatar ? (
+                          <div
+                            style={{
+                              width: 40,
+                              height: 40,
+                              backgroundImage: `url('${expert.avatar}')`,
+                              backgroundPosition: 'center',
+                              backgroundSize: 'cover',
+                              borderRadius: '50%',
+                            }}
+                          />
+                        ) : (
+                          { avatarLetter }
+                        )}
+                      </div>
                     </a>
                   </Link>
                 </div>
@@ -89,4 +104,4 @@ const mapStateToProps = state => ({
   expert: state.auth.expert,
 })
 
-export default connect(mapStateToProps, { load_user })(Header)
+export default connect(mapStateToProps, { load_expert })(Header)

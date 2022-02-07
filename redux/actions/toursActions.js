@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const API_URL = 'http://x3mart.ru'
 
-// export const load_user = () => async dispatch => {
+// export const load_expert = () => async dispatch => {
 //   if (localStorage.getItem('access')) {
 //     const config = {
 //       headers: {
@@ -44,7 +44,7 @@ export const getTourTypes = () => async dispatch => {
 
     dispatch({
       type: t.GET_TOUR_TYPES_SUCCESS,
-      payload: res.data
+      payload: res.data,
     })
   } catch (err) {
     dispatch({
@@ -52,4 +52,3 @@ export const getTourTypes = () => async dispatch => {
     })
   }
 }
-
