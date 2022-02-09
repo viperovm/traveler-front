@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import NavItem from './navItem'
+import NavItem from './NavItem'
 
 const Nav = ({ status }) => {
   const [name, setName] = useState('account')
