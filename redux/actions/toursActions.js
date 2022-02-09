@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const API_URL = 'http://x3mart.ru'
 
-// export const load_expert = () => async dispatch => {
+// export const load_user = () => async dispatch => {
 //   if (localStorage.getItem('access')) {
 //     const config = {
 //       headers: {

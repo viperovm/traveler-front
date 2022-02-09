@@ -9,7 +9,6 @@ import Ii from '../styles/img/ii.png'
 import SideBarTours from './SideBarTours'
 
 const SideBar = ({ action, active }) => {
-
   return (
     <>
       <aside className='aside'>

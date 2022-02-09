@@ -24,8 +24,9 @@ const initialState = {
   access: getLocalStorage('access'),
   refresh: getLocalStorage('refresh'),
   isAuthenticated: null,
-  expert: null,
-  customer: null,
+  user: null,
+  status: '',
+  page: '',
 }
 
 const authReducer = (state = initialState, action) => {
@@ -42,15 +43,15 @@ const authReducer = (state = initialState, action) => {
       setLocalStorage('refresh', payload.refresh)
       return {
         ...state,
-        phone: '',
         isAuthenticated: true,
         access: payload.access,
         refresh: payload.refresh,
       }
-    case t.EXPERT_LOADED_SUCCESS:
+    case t.USER_LOADED_SUCCESS:
       return {
         ...state,
-        expert: payload,
+        user: payload.data,
+        status: payload.status,
         isAuthenticated: true,
       }
     case t.SIGNUP_SUCCESS:
@@ -58,6 +59,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         reg_status: payload,
         isAuthenticated: true,
+      }
+    case t.SET_PAGE:
+      return {
+        ...state,
+        page: payload,
       }
     case t.LOGOUT:
       removeLocalStorage('access')
@@ -67,12 +73,12 @@ const authReducer = (state = initialState, action) => {
         access: null,
         refresh: null,
         isAuthenticated: false,
-        expert: null,
+        user: null,
       }
     case t.AUTHENTICATED_FAIL:
     case t.LOGIN_FAIL:
     case t.SIGNUP_FAIL:
-    case t.EXPERT_LOADED_FAIL:
+    case t.USER_LOADED_FAIL:
       return {
         ...state,
       }

@@ -2,31 +2,19 @@ import {useState, useEffect} from 'react'
 import Logo from '../../components/logo/Logo'
 import MainNav from '../../components/mainNav/MainNav'
 import Link from 'next/link'
-import { load_expert } from '../../redux/actions/authActions'
+import { load_user } from '../../redux/actions/authActions'
 import Image from 'next/image'
 
 import { connect } from 'react-redux'
+import UserAvatar from '../../components/UserAvatar'
+import UserSmallAvatar from '../../components/UserSmallAvatar/UserSmallAvatar'
 
-const Header = ({ isAuthenticated, load_expert, expert }) => {
-  const [avatarLetter, setAvatarLetter] = useState('')
-
+const Header = ({ isAuthenticated, load_user, user }) => {
   const [isOpened, setIsOpened] = useState(false)
 
   useEffect(() => {
-    load_expert()
+    load_user()
   }, [])
-
-  useEffect(() => {
-    if (expert) {
-      if (expert.name) {
-        setAvatarLetter(expert.name[0])
-      } else if (expert.email) {
-        setAvatarLetter(expert.email[0])
-      } else {
-        setAvatarLetter('#')
-      }
-    }
-  }, [expert])
 
   const toggleOpened = () => {
     setIsOpened(!isOpened)
@@ -68,20 +56,8 @@ const Header = ({ isAuthenticated, load_expert, expert }) => {
                   <Link href='/account'>
                     <a>
                       <div className='user-account-avatar'>
-                        {expert.avatar ? (
-                          <div
-                            style={{
-                              width: 40,
-                              height: 40,
-                              backgroundImage: `url('${expert.avatar}')`,
-                              backgroundPosition: 'center',
-                              backgroundSize: 'cover',
-                              borderRadius: '50%',
-                            }}
-                          />
-                        ) : (
-                          { avatarLetter }
-                        )}
+                        <UserSmallAvatar/>
+                        {/* <UserAvatar user={user} /> */}
                       </div>
                     </a>
                   </Link>
@@ -101,7 +77,7 @@ const Header = ({ isAuthenticated, load_expert, expert }) => {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  expert: state.auth.expert,
+  user: state.auth.user,
 })
 
-export default connect(mapStateToProps, { load_expert })(Header)
+export default connect(mapStateToProps, { load_user })(Header)

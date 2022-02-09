@@ -3,9 +3,7 @@ import axios from 'axios'
 
 const API_URL = 'http://x3mart.ru'
 
-
-
-export const load_expert = () => async dispatch => {
+export const load_user = () => async dispatch => {
   if (localStorage.getItem('access')) {
     const config = {
       headers: {
@@ -15,24 +13,42 @@ export const load_expert = () => async dispatch => {
       },
     }
 
-    try {
-      const res = await axios.get(
-        `${API_URL}/api/experts/me/`,
-        config
+    function parseJwt(token) {
+      var base64Url = token.split('.')[1]
+      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+      var jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+          })
+          .join('')
       )
 
+      return JSON.parse(jsonPayload)
+    }
+
+    const user = parseJwt(localStorage.getItem('access')).user_status
+
+    try {
+      const res = await axios.get(`${API_URL}/api/${user}/me/`, config)
+      const data = {
+        data: res.data,
+        status: user,
+      }
+
       dispatch({
-        type: t.EXPERT_LOADED_SUCCESS,
-        payload: res.data,
+        type: t.USER_LOADED_SUCCESS,
+        payload: data,
       })
     } catch (err) {
       dispatch({
-        type: t.EXPERT_LOADED_FAIL,
+        type: t.USER_LOADED_FAIL,
       })
     }
   } else {
     dispatch({
-      type: t.EXPERT_LOADED_FAIL,
+      type: t.USER_LOADED_FAIL,
     })
   }
 }
@@ -72,18 +88,14 @@ export const login = data => async dispatch => {
   const body = JSON.stringify(data)
 
   try {
-    const res = await axios.post(
-      `${API_URL}/auth/jwt/create/`,
-      body,
-      config
-    )
+    const res = await axios.post(`${API_URL}/auth/jwt/create/`, body, config)
 
     dispatch({
       type: t.LOGIN_SUCCESS,
       payload: res.data,
     })
 
-    dispatch(load_expert())
+    dispatch(load_user())
   } catch (err) {
     dispatch({
       type: t.LOGIN_FAIL,
@@ -103,11 +115,7 @@ export const checkAuthenticated = () => async dispatch => {
     const body = JSON.stringify({ token: localStorage.getItem('access') })
 
     try {
-      const res = await axios.post(
-        `${API_URL}/auth/jwt/verify/`,
-        body,
-        config
-      )
+      const res = await axios.post(`${API_URL}/auth/jwt/verify/`, body, config)
 
       if (res.data.code !== 'token_not_valid') {
         dispatch({
@@ -146,11 +154,7 @@ export const reset_password = email => async dispatch => {
   const body = JSON.stringify({ email })
 
   try {
-    await axios.post(
-      `${API_URL}/auth/users/reset_password/`,
-      body,
-      config
-    )
+    await axios.post(`${API_URL}/auth/users/reset_password/`, body, config)
 
     dispatch({
       type: t.PASSWORD_RESET_SUCCESS,
@@ -188,3 +192,10 @@ export const reset_password_confirm =
       })
     }
   }
+
+export const setPage = title => dispatch => {
+  dispatch({
+    type: t.SET_PAGE,
+    payload: title,
+  })
+}
