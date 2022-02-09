@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Router from 'next/router'
 
 import { connect } from 'react-redux'
-import SideBar from '../../components/sidebar/SideBar'
+import SideBar from '../../components/sideBar/SideBar'
 
 import { load_user } from '../../redux/actions/authActions'
 
@@ -109,20 +109,7 @@ const Account = ({
           <div className='wrapper'>
             <div className='account_block'>
               <SideBar status={status} />
-
               {children}
-
-              {/* {active === 'account' && (
-                <ExpertAccount user={user} letter={avatarLetter} />
-              )}
-              {active === 'tours' && <MyTours user={user} />}
-              {active === 'chat' && <Chat user={user} />}
-              {active === 'profile' && <MyProfile user={user} />}
-              {active === 'orders' && <Orders user={user} />}
-              {active === 'settings' && <Settings user={user} />}
-              {active === 'props' && <Props user={user} />}
-              {active === 'requests' && <Requests user={user} />}
-              {active === 'team' && <MyTeam user={user} />} */}
             </div>
           </div>
         </section>
