@@ -1897,7 +1897,7 @@ li.sidebar-menu-items a {
 }
 
 li.li-border-none:last-child {
-  border-bottom: 1px solid #ebebeb!important;
+  border-bottom: 1px solid #ebebeb !important;
 }
 
 .account-sidebar-menu li.active {
@@ -2523,6 +2523,7 @@ li.li-border-none:last-child {
 .my-tours-heading {
   width: 100%;
   margin-bottom: 30px;
+  /* font-size: 24px; */
 }
 
 .control-buttons {
@@ -2563,6 +2564,7 @@ li.li-border-none:last-child {
 
 .my-tours-input-section {
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .input-label {
@@ -2578,18 +2580,23 @@ li.li-border-none:last-child {
   width: 100%;
 }
 
+.my-tours-input-full-radio {
+  display: flex;
+  width: 100%;
+}
+
 .my-tours-input-full input,
 .my-tours-input-full select {
   flex: 2;
-  width: 66%;
+  width: 66% !important;
   height: 60px;
   background: #f6f7f9;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 8px;
   font-weight: 450;
   font-size: 16px;
   padding: 20px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   margin-right: 30px;
   display: inline-block;
 }
@@ -2689,25 +2696,568 @@ li.li-border-none:last-child {
   padding: 20px;
   color: #000;
   border-radius: 8px;
-  border: 1px solid rgba(0,0,0,0.1)
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.blocks-wrapper li:not(:nth-child(3n+3)) {
+.blocks-wrapper li:not(:nth-child(3n + 3)) {
   margin-right: 30px;
 }
 
-.blocks-wrapper li svg{
+.blocks-wrapper li svg {
   font-size: 22px;
   justify-content: start;
 }
 
 .blocks-title {
   font-weight: 600;
-font-size: 16px;
-margin: 10px 0;
+  font-size: 16px;
+  margin: 10px 0;
 }
 
 .blocks-text {
   font-size: 14px;
   line-height: 19px;
+}
+
+.createAccount_inner {
+  position: relative;
+  width: 100%;
+}
+
+.my-tours-input-full > div:first-child {
+  flex: 2;
+  width: 66%;
+  height: 60px;
+  background: #f6f7f9;
+  border: none;
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
+  border-radius: 8px;
+  font-weight: 450;
+  font-size: 16px;
+  padding: 14px 20px;
+  /* margin-bottom: 20px; */
+  margin-right: 30px;
+  display: inline-block;
+}
+
+.my-tours-input-full > div:first-child:focus {
+  border-radius: 8px;
+  border-color: '#80bdff';
+  box-shadow: '0 0 0 0.2rem rgba(0,123,255,.25)';
+}
+
+.my-tours-input-full > div:first-child select:focus {
+  border-radius: 8px;
+  border-color: '#80bdff';
+  box-shadow: '0 0 0 0.2rem rgba(0,123,255,.25)';
+}
+
+.my-tours-input-full > div:first-child > div:first-child {
+  width: 100%;
+  height: 100%;
+  font-weight: 450;
+  font-size: 16px;
+  /* padding: 20px; */
+  margin: 0 !important;
+  padding: 0 !important;
+  /* margin-right: 30px; */
+  display: inline-block;
+}
+
+.checkbox-section {
+  display: flex;
+  width: 50%;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.checkbox-section > span:first-child {
+  padding: 0px;
+  border: none;
+  margin-right: 20px;
+}
+
+.checkbox-section > span > svg {
+  width: 30px;
+  border-color: transparent !important;
+}
+
+.css-1oakzvg-MuiButtonBase-root-MuiCheckbox-root {
+  color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.css-1oakzvg-MuiButtonBase-root-MuiCheckbox-root.Mui-checked {
+  color: #1976d2 !important;
+}
+
+.css-1oakzvg-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+.css-1oakzvg-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+  color: #1976d2;
+}
+
+.checkbox-label {
+  font-size: 14px;
+  line-height: 17px;
+  color: #000;
+  padding: 5px 0;
+}
+.checkbox-comment {
+  font-size: 13px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.double-wrapper {
+  width: 66%;
+}
+
+.children-wrapper {
+  width: 100%;
+  display: flex;
+  /* justify-content:space-between */
+}
+
+.double-wrapper-item {
+  display: flex;
+  justify-content: stretch;
+  flex-direction: column;
+}
+
+.double-wrapper-item > div:nth-child(2) {
+  width: 100%;
+
+  display: flex;
+}
+
+.MuiOutlinedInput-root {
+  max-height: 60px !important;
+  min-height: 60px !important;
+}
+
+.double-wrapper-item:first-child {
+  margin-right: 20px;
+}
+
+.ratio-1-2 .double-wrapper-item {
+  width: 50%;
+  flex: 1;
+}
+
+.ratio-2-3 .double-wrapper-item:first-child {
+  width: 66%;
+  flex: 2;
+}
+
+.ratio-2-3 .double-wrapper-item:last-child {
+  width: 33%;
+  flex: 1;
+}
+
+.double-wrapper-item input {
+  flex: 2;
+  width: 100%;
+  height: 60px;
+  background: #f6f7f9;
+  /* border: none; */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  font-weight: 450;
+  font-size: 16px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  margin-right: 30px;
+  display: inline-block;
+  font-family: 'AvenirNextCyr-Regular';
+}
+
+.double-wrapper-item .MuiOutlinedInput-root {
+  flex: 2;
+  width: 100%;
+  height: 60px;
+  background: #f6f7f9;
+  border: none;
+  /* border: 1px solid rgba(0, 0, 0, 0.3); */
+  border-radius: 8px;
+  font-weight: 450;
+  font-size: 16px;
+  /* padding: 14px 20px; */
+  margin-bottom: 20px;
+  margin-right: 30px;
+  display: inline-block;
+  font-family: 'AvenirNextCyr-Regular';
+}
+
+.my-tours-input-full textarea {
+  flex: 2;
+  width: 66%;
+  height: auto;
+  background: #f6f7f9;
+  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  font-weight: 450;
+  font-size: 16px;
+  padding: 14px 20px;
+  /* margin-bottom: 20px; */
+  margin-right: 30px;
+  display: inline-block;
+}
+
+.radio-buttons-container {
+  display: flex;
+}
+
+/* The container */
+.radio-input-container {
+  height: 60px;
+  width: 60px;
+  display: inline-flex;
+  position: relative;
+  margin: 0 20px 20px 0;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio-input-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  height: 100%;
+  width: 100%;
+  background-color: #f6f7f9;
+  border-radius: 8px;
+  color: #000;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  line-height: 60px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-input-container:hover input ~ .checkmark {
+  background-color: #eee;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-input-container input:checked ~ .checkmark {
+  background-color: #2196f3;
+  color: #fff;
+  border: none;
+}
+
+.radio-wrapper {
+  display: flex;
+  width: 66%;
+  margin-right: 30px;
+}
+
+.my-tours-input-full .ck-editor {
+  width: 66% !important;
+  margin-right: 30px !important;
+  border-radius: 8px !important;
+}
+
+.comment-markdown p {
+  margin-bottom: 20px;
+}
+
+.add-component {
+}
+
+.tours-list-add-button-wrapper {
+  display: flex;
+  width: 100%;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(239, 143, 33, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  padding: 25px 20px;
+}
+
+.tours-list-add-button-text {
+  flex: 1;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.tours-list-add-button-button {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.tours-list-add-button-button button {
+  border: none;
+  background: #84bb59;
+  border-radius: 8px;
+  font-weight: 750;
+  font-size: 16px;
+  line-height: 20px;
+
+  text-transform: uppercase;
+  padding: 16px 32px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.add-tour-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 60px;
+  border-radius: 8px;
+  font-weight: 750;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+  text-transform: uppercase;
+  border: none;
+  margin-bottom: 20px;
+}
+
+.add-tour-button.button-success {
+  background-color: #84bb59;
+  cursor: pointer;
+}
+
+.add-tour-button.button-primary {
+  background-color: #2aa2d6;
+  cursor: pointer;
+}
+
+.add-tour-button.button-disabled {
+  pointer-events: none;
+}
+
+.modal-wrapper {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.modal-wrapper.modal-active {
+  display: flex;
+}
+
+.modal-button {
+  width: 100%;
+  height: 60px;
+  background: #f6f7f9;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+  color: #84bb59;
+  margin-top: 18px;
+}
+
+.modal-body {
+  min-width: 350px;
+  min-height: 250px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  position: relative;
+}
+
+.modal-header {
+  margin: 20px;
+  border-bottom: 1px solid #ebebeb;
+  position: relative;
+  line-height: 20px;
+  padding: 0 10px 10px 20px;
+}
+
+.modal-close-button {
+  background-image: url('./img/close 1.svg');
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.modal-header::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background-color: #2aa2d6;
+  border-radius: 8px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.modal-header::after {
+  /* content: ; */
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.modal-content {
+  position: relative;
+  padding: 20px;
+}
+
+.tripple-wrapper {
+  width: 66%;
+}
+
+.children-wrapper {
+  width: 100%;
+  display: flex;
+  /* justify-content:space-between */
+}
+
+.tripple-wrapper-item {
+  display: flex;
+  justify-content: stretch;
+  flex-direction: column;
+}
+
+.tripple-wrapper-item > div:nth-child(2) {
+  width: 100%;
+
+  display: flex;
+}
+
+.MuiOutlinedInput-root {
+  max-height: 60px !important;
+  min-height: 60px !important;
+}
+
+.tripple-wrapper-item:first-child {
+  margin-right: 20px;
+}
+.tripple-wrapper-item:nth-child(2) {
+  margin-right: 20px;
+}
+
+.ratio-1-2 .tripple-wrapper-item:first-child {
+  width: 50%;
+  flex: 3;
+}
+.ratio-1-2 .tripple-wrapper-item:nth-child(2) {
+  width: 25%;
+  flex: 1;
+}
+.ratio-1-2 .tripple-wrapper-item:nth-child(3) {
+  width: 25%;
+  flex: 1;
+}
+
+.ratio-2-3 .tripple-wrapper-item:first-child {
+  width: 66%;
+  flex: 2;
+}
+
+.ratio-2-3 .tripple-wrapper-item:last-child {
+  width: 33%;
+  flex: 1;
+}
+
+.tripple-wrapper-item input {
+  flex: 2;
+  width: 100%;
+  height: 60px;
+  background: #f6f7f9;
+  /* border: none; */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  font-weight: 450;
+  font-size: 16px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  margin-right: 30px;
+  display: inline-block;
+  font-family: 'AvenirNextCyr-Regular';
+}
+
+.tripple-wrapper-item .MuiOutlinedInput-root {
+  flex: 2;
+  width: 100%;
+  height: 60px;
+  background: #f6f7f9;
+  border: none;
+  /* border: 1px solid rgba(0, 0, 0, 0.3); */
+  border-radius: 8px;
+  font-weight: 450;
+  font-size: 16px;
+  /* padding: 14px 20px; */
+  margin-bottom: 20px;
+  margin-right: 30px;
+  display: inline-block;
+  font-family: 'AvenirNextCyr-Regular';
+}
+
+input[type='file'] {
+  max-width: 0;
+  height: 0;
+  opacity: 0;
+  position: absolute;
+}
+.fake-file-input-wrapper {
+  display: flex;
+  width: 66%;
+  min-height: 160px;
+  margin-right: 30px;
+}
+
+.fake-file-input {
+  width: 160px;
+  min-height: 160px;
+  background: #f6f7f9;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.fake-file-input .camera-image {
+  width: 60px;
+  height: 60px;
+  background-image: url('./img/photo-camera 1.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  /* margin-bottom: 15px; */
+}
+
+.fake-file-input-text {
+  width: 80px;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
 }

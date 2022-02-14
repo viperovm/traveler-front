@@ -1,22 +1,10 @@
 import { useState, useEffect } from 'react'
 
+
 import NavItem from './NavItem'
 
 const Nav = ({ status }) => {
   const [name, setName] = useState('account')
-
-  const expertTours = [
-    { value: 'common', text: 'Общее', completed: true },
-    { value: 'prices', text: 'Цены и даты', completed: true },
-    { value: 'options', text: 'Условия отмены', completed: false },
-    { value: 'details', text: 'Детали', completed: false },
-    { value: 'day', text: 'День за днем', completed: false },
-    { value: 'leader', text: 'Турлидер', completed: false },
-    { value: 'conditions', text: 'Условия', completed: false },
-    { value: 'services', text: 'Доп. услуги', completed: false },
-    { value: 'important', text: 'Важно знать', completed: false },
-    { value: 'photos', text: 'Фотографии', completed: false },
-  ]
 
   const expert = [
     {
@@ -26,7 +14,7 @@ const Nav = ({ status }) => {
     {
       name: 'tours',
       title: 'Мои туры',
-      secondary: expertTours,
+      secondary: true,
     },
     {
       name: 'chat',
@@ -110,5 +98,7 @@ const Nav = ({ status }) => {
     </>
   )
 }
+
+
 
 export default Nav
