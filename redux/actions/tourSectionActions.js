@@ -42,6 +42,20 @@ export const zeroingData = () => async dispatch => {
   })
 }
 
+export const openSecondaryMenu = (bool) => async dispatch => {
+  dispatch({
+    type: t.OPEN_SECONDARY_MENU,
+    payload: bool,
+  })
+}
+
+export const setLocal = (bool) => async dispatch => {
+  dispatch({
+    type: t.OPEN_SECONDARY_MENU,
+    payload: bool,
+  })
+}
+
 export const getRemoteData =
   (data_type, filter) =>
   async dispatch => {

@@ -17,6 +17,7 @@ const initialState = {
     { value: 'important', text: 'Важно знать', active: false },
     { value: 'photos', text: 'Фотографии', active: false },
   ],
+  secondary: false,
   remote_data: [],
 }
 
@@ -63,6 +64,11 @@ const tourSectionReducer = (state = initialState, action) => {
       return {
         ...state,
         remote_data: [],
+      }
+    case t.OPEN_SECONDARY_MENU:
+      return {
+        ...state,
+        secondary: payload,
       }
     case t.ZEROING_DATA:
       return {

@@ -19,14 +19,22 @@ import {
 import SecondaryNav from './SecondaryNav'
 // import SvgColor from 'react-svg-color'
 
-const NavItem = ({ page, setPage, action, name, active, title, secondary }) => {
-  
+const NavItem = ({
+  page,
+  setPage,
+  action,
+  name,
+  active,
+  title,
+  secondary_nav,
+  secondary,
+}) => {
   return (
     <>
       <li
         onClick={() => setPage(name)}
         className={`sidebar-menu-items ${page === name ? 'active' : ''} ${
-          secondary && name === page && 'with-submenu'
+          name === page && secondary_nav && secondary && 'with-submenu'
         }`}
       >
         <Link href={name === 'account' ? '/' + name : '/account/' + name}>
@@ -118,13 +126,14 @@ const NavItem = ({ page, setPage, action, name, active, title, secondary }) => {
           </a>
         </Link>
       </li>
-      {secondary && name === page && <SecondaryNav data={secondary} />}
+      {secondary_nav && name === page && <SecondaryNav data={secondary_nav} />}
     </>
   )
 }
 
 const mapStateToProps = state => ({
-  page: state.auth.page
+  page: state.auth.page,
+  secondary: state.tourSection.secondary,
 })
 
 export default connect(mapStateToProps, { setPage })(NavItem)

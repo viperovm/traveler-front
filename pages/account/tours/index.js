@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react'
-import { getTourTypes } from '../../../redux/actions/toursActions'
-import { zeroingData } from '../../../redux/actions/tourSectionActions'
+import {
+  getTourTypes,
+  clearCurrentTour,
+  addTour,
+} from '../../../redux/actions/toursActions'
+import {
+  zeroingData,
+  openSecondaryMenu,
+} from '../../../redux/actions/tourSectionActions'
 import { connect } from 'react-redux'
 import Account from '../../../layouts/account/account'
 import { setPage } from '../../../redux/actions/authActions'
@@ -14,8 +21,21 @@ const MyTours = ({
   status,
   tourName,
   zeroingData,
+  addTour,
+  current_tour,
+  clearCurrentTour,
+  openSecondaryMenu,
 }) => {
   const [editing, setEditing] = useState(false)
+
+  const handleTourDelete = () => {
+    setEditing(false)
+    clearCurrentTour()
+  }
+
+  useEffect(() => {
+    openSecondaryMenu(editing)
+  }, [editing])
 
   const [title, setTitle] = useState('Название тура')
 
@@ -24,8 +44,13 @@ const MyTours = ({
   }, [tourName])
 
   const handleEditingButton = () => {
-    zeroingData()
-    setEditing(true)
+    if (current_tour && current_tour.id) {
+      setEditing(true)
+    } else {
+      addTour()
+      zeroingData()
+      setEditing(true)
+    }
   }
 
   return (
@@ -43,7 +68,9 @@ const MyTours = ({
               </div>
               <div className='tours-list-add-button-button'>
                 <button onClick={handleEditingButton}>
-                  Добавить путешествие
+                  {current_tour && current_tour.id
+                    ? 'Продолжить редактирование'
+                    : 'Добавить путешествие'}
                 </button>
               </div>
             </div>
@@ -52,7 +79,7 @@ const MyTours = ({
             <div className='control-buttons-set'>
               {editing ? (
                 <>
-                  <button>Удалить</button>
+                  <button onClick={handleTourDelete}>Удалить</button>
                   <button>Создать копию</button>
                   <button>Предпросмотр</button>
                 </>
@@ -84,8 +111,14 @@ const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
   status: state.auth.status,
   tourName: state.tourSection.tour_name,
+  current_tour: state.tours.current_tour,
 })
 
-export default connect(mapStateToProps, { getTourTypes, setPage, zeroingData })(
-  MyTours
-)
+export default connect(mapStateToProps, {
+  getTourTypes,
+  setPage,
+  zeroingData,
+  addTour,
+  clearCurrentTour,
+  openSecondaryMenu,
+})(MyTours)

@@ -3,7 +3,7 @@ import Checkbox from '@mui/material/Checkbox'
 
 const inputLabel = { inputProps: { 'aria-label': 'Checkbox demo' } }
 
-const CheckboxInput = ({action, name, label, comment}) => {
+const CheckboxInput = ({action, name, label, comment, value}) => {
   const [data, setData] = useState('')
 
 
@@ -18,6 +18,13 @@ const CheckboxInput = ({action, name, label, comment}) => {
     setData(e.target.checked)
     action(name, e.target.checked)
   }
+
+   useEffect(() => {
+     if (value) {
+       setData(value)
+     }
+   }, [])
+
   return (
     <>
       <div className='checkbox-section'>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import DoubleWrapper from '../Wrappers/DoubleWrapper'
 import Input from '../FormFields/Input'
+import FileInput from '../FormFields/FileInput'
 import RadioInput from '../FormFields/RadioInput'
 import TextEditor from '../FormFields/TextEditor'
 import TextArea from '../FormFields/TextArea'
@@ -17,6 +18,7 @@ import {
   getCountries,
   getRussianRegions,
   getCities,
+  updateTour,
 } from '../../../redux/actions/toursActions'
 import {
   setActiveSections,
@@ -43,6 +45,7 @@ const Leader = ({
   active_sections,
   secondary_nav,
   setSecondaryNav,
+  updateTour,
 }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
@@ -198,10 +201,7 @@ const Leader = ({
           // multiple
         />
       </SingleWrapper>
-      <SingleWrapper
-        label='Имя гида'
-        comment=''
-      >
+      <SingleWrapper label='Имя гида' comment=''>
         <Input
           action={handleInput}
           name='leader_name'
@@ -219,13 +219,10 @@ const Leader = ({
           // multiple
         />
       </SingleWrapper>
-      <SingleWrapper
-        label='Фотография гида'
-        comment=''
-      >
-        <Input
+      <SingleWrapper label='Фотография гида' comment=''>
+        <FileInput
           action={handleInput}
-          name='leader_name'
+          name='leader_photo'
           old_data={data}
           type='file'
           // options={toursTypes}
@@ -256,4 +253,5 @@ export default connect(mapStateToProps, {
   getRussianRegions,
   getCities,
   setSecondaryNav,
+  updateTour,
 })(Leader)

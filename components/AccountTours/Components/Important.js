@@ -14,16 +14,13 @@ import { connect } from 'react-redux'
 import {
   setSecondaryNav,
 } from '../../../redux/actions/tourSectionActions'
+import { updateTour } from '../../../redux/actions/toursActions'
 
 
-const Important = ({
-  action,
-  secondary_nav,
-  setSecondaryNav,
-}) => {
+const Important = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
-  
+
   const handleInput = (name, value) => {
     setData({
       ...data,
@@ -33,10 +30,7 @@ const Important = ({
 
   useEffect(() => {
     if (data) {
-      if (
-        data.guest_requirements &&
-        data.important_comments
-      ) {
+      if (data.guest_requirements && data.important_comments) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
@@ -68,7 +62,6 @@ const Important = ({
         )
       }
     }
-
   }, [data])
 
   const handleButtonSubmit = () => {
@@ -112,4 +105,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   setSecondaryNav,
+  updateTour,
 })(Important)

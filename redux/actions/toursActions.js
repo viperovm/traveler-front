@@ -3,6 +3,143 @@ import axios from 'axios'
 
 const API_URL = 'http://x3mart.ru'
 
+export const addTour = data => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${localStorage.getItem('access')}`,
+      'Accept': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.post(`${API_URL}/api/tours/`, body, config)
+
+    dispatch({
+      type: t.ADD_TOUR_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.ADD_TOUR_FAIL,
+    })
+  }
+}
+
+export const getTour = id => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${localStorage.getItem('access')}`,
+      'Accept': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.get(`${API_URL}/api/tours/${id}`, config)
+
+    dispatch({
+      type: t.GET_TOUR_SUCCESS,
+      payload: res.data,
+    })
+  } catch (err) {
+    dispatch({
+      type: t.GET_TOUR_FAIL,
+    })
+  }
+}
+
+export const updateTour = (data, id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${localStorage.getItem('access')}`,
+      'Accept': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify(data)
+
+  try {
+    const res = await axios.patch(`${API_URL}/api/tours/${id}/`, body, config)
+
+    dispatch({
+      type: t.UPDATE_TOUR_SUCCESS,
+      payload: res.data,
+    })
+    // dispatch(getTour(id))
+  } catch (err) {
+    dispatch({
+      type: t.UPDATE_TOUR_FAIL,
+    })
+  }
+}
+
+export const updateTourImages = (name, image, id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+
+  let form_data = new FormData()
+
+  form_data.append(name, image)
+
+  try {
+    const res = await axios.patch(
+      `${API_URL}/api/tours/${id}/`,
+      form_data,
+      config
+    )
+
+    dispatch({
+      type: t.UPDATE_TOUR_SUCCESS,
+      payload: res.data,
+    })
+    // dispatch(getTour(id))
+  } catch (err) {
+    dispatch({
+      type: t.UPDATE_TOUR_FAIL,
+    })
+  }
+}
+
+
+
+// export const setReview = ({phone_number, attributes, body}) => async dispatch => {
+//   const config = {
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': `JWT ${localStorage.getItem('access')}`,
+//       'Accept': 'application/json'
+//     }
+//   };
+
+//   const content = JSON.stringify({ phone_number, attributes, body })
+
+//   try {
+//     const res = await axios.post(
+//       `${process.env.REACT_APP_API_URL}/api/reviews/`,
+//       content,
+//       config
+//     )
+
+//     dispatch({
+//       type: SET_REVIEW_SUCCESS,
+//       payload: res.status
+//     });
+//   } catch (err) {
+//     dispatch({
+//       type: SET_REVIEW_FAIL,
+//       payload: err.response.data.error,
+//     })
+//   }
+// };
+
 // export const load_user = () => async dispatch => {
 //   if (localStorage.getItem('access')) {
 //     const config = {
@@ -154,52 +291,9 @@ export const getCities =
     }
   }
 
-export const addTour = data => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-      Accept: 'application/json',
-    },
-  }
-
-  const body = JSON.stringify(data)
-
-  try {
-    const res = await axios.post(`${API_URL}/api/tours/`, config, body)
-
+  export const clearCurrentTour = () => async dispatch => {
     dispatch({
-      type: t.ADD_TOUR_SUCCESS,
-      payload: res.data,
-    })
-  } catch (err) {
-    dispatch({
-      type: t.ADD_TOUR_FAIL,
+      type: t.CLEAR_CURRENT_TOUR,
     })
   }
-}
 
-export const updateTour = (data, id) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `JWT ${localStorage.getItem('access')}`,
-      Accept: 'application/json',
-    },
-  }
-
-  const body = JSON.stringify(data)
-
-  try {
-    const res = await axios.patch(`${API_URL}/api/tours/${id}/`, config)
-
-    dispatch({
-      type: t.UPDATE_TOUR_SUCCESS,
-      payload: res.data,
-    })
-  } catch (err) {
-    dispatch({
-      type: t.UPDATE_TOUR_FAIL,
-    })
-  }
-}

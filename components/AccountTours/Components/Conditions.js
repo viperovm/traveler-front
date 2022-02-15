@@ -10,15 +10,12 @@ import { connect } from 'react-redux'
 import {
   setSecondaryNav,
 } from '../../../redux/actions/tourSectionActions'
+import { updateTour } from '../../../redux/actions/toursActions'
 
-const Conditions = ({
-  action,
-  secondary_nav,
-  setSecondaryNav,
-}) => {
+const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
-  
+
   const handleInput = (name, value) => {
     setData({
       ...data,
@@ -28,11 +25,7 @@ const Conditions = ({
 
   useEffect(() => {
     if (data) {
-      if (
-        data.price_includes &&
-        data.price_excludes &&
-        data.air_tickets
-      ) {
+      if (data.price_includes && data.price_excludes && data.air_tickets) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
@@ -116,4 +109,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   setSecondaryNav,
+  updateTour,
 })(Conditions)

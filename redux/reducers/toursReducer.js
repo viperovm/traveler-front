@@ -18,10 +18,25 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         tour_types: payload,
       }
+    case t.CLEAR_CURRENT_TOUR:
+      return {
+        ...state,
+        current_tour: {},
+      }
     case t.ADD_TOUR_SUCCESS:
       return {
         ...state,
         current_tour: payload,
+      }
+    case t.GET_TOUR_SUCCESS:
+      return {
+        ...state,
+        current_tour: payload,
+      }
+    case t.GET_TOUR_FAIL:
+      return {
+        ...state,
+        current_tour: [],
       }
 
     case t.GET_REGIONS_SUCCESS:

@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react'
+import {useState, useEffect} from 'react'
 
 const Input = ({
   action,
@@ -8,30 +8,15 @@ const Input = ({
 }) => {
   const [data, setData] = useState('')
 
-  const inputFileRef = useRef(null)
-
-  const onBtnClick = () => {
-    /*Collecting node-element and performing click*/
-    inputFileRef.current.click()
-  }
-
-  const onFilechange = e => {
-    /*Selected files data can be collected here.*/
-    console.log(e.target.files)
-  }
-
-  useEffect(() => {
-    if (value) {
-      setData(value)
-    }
-  }, [])
-
-  useEffect(() => {
-    action(name, data)
-  }, [data])
+   useEffect(() => {
+     if (value) {
+       setData(value)
+     }
+   }, [])
 
   const handleData = e => {
     setData(e.target.value)
+    action(name, e.target.value)
   }
   // const handleSend = () => {
   //   action(name, data)
@@ -43,17 +28,8 @@ const Input = ({
         name={name}
         value={data}
         type={type}
-        onChange={type === 'file' ? handleData : onFilechange}
-        ref={inputFileRef}
+        onChange={handleData}
       />
-      {type === 'file' && (
-        <div className='fake-file-input-wrapper'>
-          <div className='fake-file-input' onClick={onBtnClick}>
-            <div className='camera-image' />
-            <div className='fake-file-input-text'>Добавить новое фото</div>
-          </div>
-        </div>
-      )}
     </>
   )
 }

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
-import Input from '../FormFields/Input'
+import FileInput from '../FormFields/FileInput'
 import Button from './Button'
 
 import { connect } from 'react-redux'
 import { setSecondaryNav } from '../../../redux/actions/tourSectionActions'
+import { updateTour } from '../../../redux/actions/toursActions'
 
-const Photos = ({ action, secondary_nav, setSecondaryNav }) => {
+const Photos = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
 
@@ -68,11 +69,7 @@ const Photos = ({ action, secondary_nav, setSecondaryNav }) => {
         label='Добавить фото'
         comment='Добавьте не менее 7 фотографий, первая из них станет обложкой тура на предпросмотре. НЕ используйте стоковый контент и материалы других фотографов без их разрешения, так как это является нарушением авторского права и может привести к судебным разбирательствам и штрафам. Подробнее о том, где искать и как правильно использовать фото и видео для своих туров смотрите в статье. '
       >
-        <Input
-          action={handleInput}
-          name='tour_images'
-          type='file'
-        />
+        <FileInput action={handleInput} name='tour_images' type='file' />
       </SingleWrapper>
       <Button active={true} action={handleButtonSubmit} />
     </>
@@ -86,4 +83,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   setSecondaryNav,
+  updateTour,
 })(Photos)

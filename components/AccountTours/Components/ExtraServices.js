@@ -11,16 +11,18 @@ import { connect } from 'react-redux'
 import {
   setSecondaryNav,
 } from '../../../redux/actions/tourSectionActions'
+import { updateTour } from '../../../redux/actions/toursActions'
 
 const ExtraServices = ({
   action,
   toursTypes,
   secondary_nav,
   setSecondaryNav,
+  updateTour,
 }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
- 
+
   const handleInput = (name, value) => {
     setData({
       ...data,
@@ -43,7 +45,6 @@ const ExtraServices = ({
         }
       })
     )
-
   }, [])
 
   const handleButtonSubmit = () => {
@@ -119,4 +120,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   setSecondaryNav,
+  updateTour,
 })(ExtraServices)

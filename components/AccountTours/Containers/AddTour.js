@@ -6,17 +6,6 @@ import {
   setCurrentSection,
   zeroingData,
 } from '../../../redux/actions/tourSectionActions'
-// import Input from '../FormFields/Input'
-// import SelectInput from './SelectInput'
-// import './tours'
-// import CheckboxInput from '../FormFields/CheckboxInput'
-// import DoubleWrapper from '../Wrappers/DoubleWrapper'
-// import SingleWrapper from '../Wrappers/SingleWrapper'
-// import TextArea from '../FormFields/TextArea'
-// import RadioInput from '../FormFields/RadioInput'
-// import TextEditor from '../FormFields/TextEditor'
-// import DayAfterDay from '../DayAfterDay'
-// import DaysHandler from '../DaysHandler'
 import Common from '../Components/Common'
 import Prices from '../Components/Prices'
 import Cancellation from '../Components/Cancellation'
@@ -35,8 +24,6 @@ const AddTour = ({
   status,
   currentSection,
   setCurrentSection,
-  zeroingData,
-  addTour,
   current_tour,
 }) => {
   // const [currentSection, setCurrentSection] = useState('common')
@@ -53,7 +40,6 @@ const AddTour = ({
   useEffect(() => {
     getTourTypes()
     setPage('tours')
-    addTour()
   }, [])
 
   // const [sectionStatus, sectionSetStatus] = useState({
@@ -73,34 +59,34 @@ const AddTour = ({
     <>
       <div className='common-section'>
         {currentSection === 'common' && (
-          <Common action={setCurrentSection} tour_id={tourId} />
+          <Common action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'prices' && (
-          <Prices action={setCurrentSection} tour_id={tourId} />
+          <Prices action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'options' && (
-          <Cancellation action={setCurrentSection} tour_id={tourId} />
+          <Cancellation action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'details' && (
-          <Details action={setCurrentSection} tour_id={tourId} />
+          <Details action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'day' && (
-          <Days action={setCurrentSection} tour_id={tourId} />
+          <Days action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'leader' && (
-          <Leader action={setCurrentSection} tour_id={tourId} />
+          <Leader action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'conditions' && (
-          <Conditions action={setCurrentSection} tour_id={tourId} />
+          <Conditions action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'services' && (
-          <ExtraServices action={setCurrentSection} tour_id={tourId} />
+          <ExtraServices action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'important' && (
-          <Important action={setCurrentSection} tour_id={tourId} />
+          <Important action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'photos' && (
-          <Gallery action={setCurrentSection} tour_id={tourId} />
+          <Gallery action={setCurrentSection} tour={current_tour} />
         )}
       </div>
     </>

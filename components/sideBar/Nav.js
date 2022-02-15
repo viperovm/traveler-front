@@ -71,7 +71,7 @@ const Nav = ({ status }) => {
 
   return (
     <>
-      <ul>
+      <ul style={{position: 'relative'}}>
         {status === 'experts' &&
           expert.map(item => (
             <NavItem
@@ -80,7 +80,7 @@ const Nav = ({ status }) => {
               name={item.name}
               active={name}
               title={item.title}
-              secondary={item.secondary}
+              secondary_nav={item.secondary}
             />
           ))}
         {status === 'customers' &&
@@ -91,7 +91,7 @@ const Nav = ({ status }) => {
               name={item.name}
               active={name}
               title={item.title}
-              secondary={item.secondary}
+              secondary_nav={item.secondary}
             />
           ))}
       </ul>

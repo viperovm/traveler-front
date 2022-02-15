@@ -14,6 +14,7 @@ import {
   getCountries,
   getRussianRegions,
   getCities,
+  updateTour,
 } from '../../../redux/actions/toursActions'
 import {
   setSecondaryNav,
@@ -21,10 +22,12 @@ import {
 import TrippleWrapper from '../Wrappers/TrippleWrapper'
 
 const Prices = ({
+  tour,
   action,
   toursTypes,
   secondary_nav,
   setSecondaryNav,
+  updateTour,
 }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
@@ -94,7 +97,7 @@ const Prices = ({
   }, [data])
 
   const handleButtonSubmit = () => {
-    // updateTour(data)
+    updateTour(data, tour.id)
     action('options')
   }
 
@@ -301,4 +304,5 @@ export default connect(mapStateToProps, {
   getRussianRegions,
   getCities,
   setSecondaryNav,
+  updateTour,
 })(Prices)

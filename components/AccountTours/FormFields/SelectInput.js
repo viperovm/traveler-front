@@ -29,12 +29,18 @@ function getStyles(name, personName, theme) {
   }
 }
 
-const SelectInput = ({ action, name, label, old_data, options, multiple }) => {
+const SelectInput = ({ action, name, label, select_value, options, multiple }) => {
 const theme = useTheme()
   const [data, setData] = useState(null)
 
 
   const [newOptions, setNewOptions] = useState({})
+
+  //  useEffect(() => {
+  //    if (select_value) {
+  //      setData(select_value)
+  //    }
+  //  }, [])
 
 
   const getObject = (arr) => {

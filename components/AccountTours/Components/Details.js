@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import DoubleWrapper from '../Wrappers/DoubleWrapper'
 import Input from '../FormFields/Input'
+import FileInput from '../FormFields/FileInput'
 import RadioInput from '../FormFields/RadioInput'
 import TextEditor from '../FormFields/TextEditor'
 import TextArea from '../FormFields/TextArea'
@@ -11,9 +12,7 @@ import Button from './Button'
 
 import { connect } from 'react-redux'
 import { setTourName } from '../../../redux/actions/tourSectionActions'
-import {
-  getTourTypes,
-} from '../../../redux/actions/toursActions'
+import { getTourTypes, updateTour } from '../../../redux/actions/toursActions'
 import {
   setSecondaryNav,
 } from '../../../redux/actions/tourSectionActions'
@@ -23,10 +22,11 @@ const Details = ({
   toursTypes,
   secondary_nav,
   setSecondaryNav,
+  updateTour,
 }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
-  
+
   const handleInput = (name, value) => {
     setData({
       ...data,
@@ -88,7 +88,7 @@ const Details = ({
   }, [data])
 
   const handleButtonSubmit = () => {
-    // updateTour(data)
+    updateTour(data)
     action('day')
   }
 
@@ -166,7 +166,7 @@ const Details = ({
         label='Добавить фото мест проживания в путешествии'
         comment=''
       >
-        <Input
+        <FileInput
           action={handleInput}
           name='tour_property_images'
           old_data={data}
@@ -264,4 +264,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getTourTypes,
   setSecondaryNav,
+  updateTour,
 })(Details)

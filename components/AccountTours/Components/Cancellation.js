@@ -7,15 +7,17 @@ import { connect } from 'react-redux'
 import {
   setSecondaryNav,
 } from '../../../redux/actions/tourSectionActions'
+import { updateTour } from '../../../redux/actions/toursActions'
 
 const Cancellation = ({
   action,
   secondary_nav,
   setSecondaryNav,
+  updateTour,
 }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
-  
+
   const handleInput = (name, value) => {
     setData({
       ...data,
@@ -25,9 +27,7 @@ const Cancellation = ({
 
   useEffect(() => {
     if (data) {
-      if (
-        data.cancellation_terms
-      ) {
+      if (data.cancellation_terms) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
@@ -62,7 +62,7 @@ const Cancellation = ({
   }, [data])
 
   const handleButtonSubmit = () => {
-    // updateTour(data)
+    updateTour(data)
     action('details')
   }
 
@@ -96,4 +96,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   setSecondaryNav,
+  updateTour,
 })(Cancellation)
