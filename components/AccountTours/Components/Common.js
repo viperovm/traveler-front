@@ -66,18 +66,18 @@ const Common = ({
   const [modalActive, setModalActive] = useState(true)
 
 
-  const handleName = (name, value) => {
-    setTourName(value)
-  }
+  // const handleName = (name, value) => {
+  //   setTourName(value)
+  // }
 
-  useEffect(() => {
-    if (tourName) {
-      setData({
-        ...data,
-        name: tourName,
-      })
-    }
-  }, [tourName])
+  // useEffect(() => {
+  //   if (tourName) {
+  //     setData({
+  //       ...data,
+  //       name: tourName,
+  //     })
+  //   }
+  // }, [tourName])
 
   useEffect(() => {
     if (tour) {
@@ -217,7 +217,7 @@ const Common = ({
         <h4>Общее</h4>
       </div>
       <SingleWrapper label='Название тура' comment='Максимум 50 символов'>
-        <Input action={handleName} name='name' value={data && data.name} />
+        <Input action={handleInput} name='name' value={data && data.name} />
       </SingleWrapper>
       <SingleWrapper label='Обложка тура' comment=''>
         <FileInput

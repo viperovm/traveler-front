@@ -27,7 +27,7 @@ const MyTours = ({
   openSecondaryMenu,
 }) => {
   const [editing, setEditing] = useState(false)
-  const [title, setTitle] = useState('Название тура')
+  const [title, setTitle] = useState(current_tour.name ?? 'Название тура')
 
   const handleTourDelete = () => {
     setEditing(false)
@@ -39,9 +39,9 @@ const MyTours = ({
   }, [editing])
 
 
-  useEffect(() => {
-    tourName && setTitle(tourName)
-  }, [tourName])
+  // useEffect(() => {
+  //   tourName && setTitle(tourName)
+  // }, [tourName])
 
   const handleEditingButton = () => {
     if (current_tour && current_tour.id) {
