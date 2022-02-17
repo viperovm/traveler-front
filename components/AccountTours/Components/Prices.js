@@ -120,6 +120,10 @@ const Prices = ({
     }
   }, [data])
 
+  const handleButtonBack = () => {
+    updateTour(data, tour.id)
+    action('common')
+  }
   const handleButtonSubmit = () => {
     updateTour(data, tour.id)
     action('options')
@@ -237,7 +241,10 @@ const Prices = ({
           name='prepay_in_prc'
           label='Номинал'
           value={data && data.prepay_in_prc}
-          options={[{id: 0, name: 'Число'}, { id: 1, name: '%' } ]}
+          options={[
+            { id: 0, name: 'Число' },
+            { id: 1, name: '%' },
+          ]}
           // multiple
         />
         <SelectInput
@@ -309,7 +316,17 @@ const Prices = ({
         comment=''
         value={data && data.scouting}
       />
-      <Button active={true} action={handleButtonSubmit} />
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '66%'}}>
+        <Button
+          color='button-primary'
+          active={true}
+          action={handleButtonBack}
+          text='Назад'
+        />
+        <Button active={true} action={handleButtonSubmit} />
+      </div>
+
       {/* <Button active={completed} /> */}
     </>
   )

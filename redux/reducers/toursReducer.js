@@ -102,6 +102,11 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         cities: [],
       }
+    case t.ZEROING_DATA:
+      return {
+        ...state,
+        current_tour: {},
+      }
 
     default:
       return state

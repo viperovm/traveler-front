@@ -3025,7 +3025,7 @@ li.li-border-none:last-child {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 400px;
+  /* width: 400px; */
   height: 60px;
   border-radius: 8px;
   font-weight: 750;
@@ -3035,12 +3035,14 @@ li.li-border-none:last-child {
   text-transform: uppercase;
   border: none;
   margin-bottom: 20px;
+  padding: 0 50px;
 }
 
 .add-tour-button.button-success {
   background-color: #84bb59;
   cursor: pointer;
 }
+
 
 .add-tour-button.button-primary {
   background-color: #2aa2d6;
