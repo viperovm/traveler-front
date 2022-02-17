@@ -16,8 +16,8 @@ import {
   getRussianRegions,
   getCities,
   updateTour,
+  updateTourWallpaper,
 } from '../../../redux/actions/toursActions'
-import { update_tour } from '../../../redux/actions/currentTourActions'
 import {
   setActiveSections,
   setSecondaryNav,
@@ -43,24 +43,11 @@ const Common = ({
   secondary_nav,
   setSecondaryNav,
   updateTour,
-  additional_types,
-  basic_type,
-  direct_link,
-  finish_city,
-  finish_country,
-  finish_region,
-  finish_russian_region,
-  finish_time,
-  name,
-  start_city,
-  start_country,
-  start_region,
-  start_russian_region,
-  start_time,
-  wallpaper,
-  update_tour,
+  updateTourWallpaper,
+  tourName,
 }) => {
-  const [data, setData] = useState()
+  const [data, setData] = useState({})
+  const [wp, setWP] = useState({})
   const [completed, setCompleted] = useState(false)
   //   const [startRegionSet, setStartRegionSet] = useState(false)
   const [startCountrySet, setStartCountrySet] = useState(false)
@@ -78,16 +65,59 @@ const Common = ({
   const [modalTitle, setModalTitle] = useState('Тестовое название')
   const [modalActive, setModalActive] = useState(true)
 
+
+  const handleName = (name, value) => {
+    setTourName(value)
+  }
+
+  useEffect(() => {
+    if (tourName) {
+      setData({
+        ...data,
+        name: tourName,
+      })
+    }
+  }, [tourName])
+
+  useEffect(() => {
+    if (tour) {
+      setData({
+        additional_types: tour.additional_types,
+        basic_type: tour.basic_type,
+        direct_link: tour.direct_link,
+        finish_city: tour.finish_city,
+        finish_country: tour.finish_country,
+        finish_region: tour.finish_region,
+        finish_russian_region: tour.finish_russian_region,
+        finish_time: tour.finish_time,
+        name: tour.name,
+        start_city: tour.start_city,
+        start_country: tour.start_country,
+        start_region: tour.start_region,
+        start_russian_region: tour.start_russian_region,
+        start_time: tour.start_time,
+      })
+      setWP({
+        wallpaper: tour.wallpaper,
+      })
+    }
+  }, [tour])
+
+  console.log(data)
+  console.log(data.name)
+
   useEffect(() => {
     getRegions()
   }, [])
 
   const handleInput = (name, value) => {
-    update_tour(name, value)
     setData({
       ...data,
       [name]: value,
     })
+  }
+  const handleWallpaperInput = value => {
+    updateTourWallpaper(value, tour.id)
   }
 
   useEffect(() => {
@@ -166,10 +196,6 @@ const Common = ({
         )
       }
     }
-
-    if (data && data.name) {
-      setTourName(data.name)
-    }
   }, [data])
 
   const handleButtonSubmit = () => {
@@ -177,20 +203,28 @@ const Common = ({
     action('prices')
   }
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
+  //  useEffect(() => {
+  //    window.scrollIntoView({ behavior: 'smooth' })
+  //  }, [])
+
   return (
     <>
       <div className='my-tours-section-heading'>
         <h4>Общее</h4>
       </div>
       <SingleWrapper label='Название тура' comment='Максимум 50 символов'>
-        <Input action={handleInput} name='name' value={name} />
+        <Input action={handleName} name='name' value={data && data.name} />
       </SingleWrapper>
       <SingleWrapper label='Обложка тура' comment=''>
         <FileInput
-          action={handleInput}
+          action={handleWallpaperInput}
           name='wallpaper'
           max={1}
-          value={wallpaper}
+          value={wp && wp.wallpaper}
         />
       </SingleWrapper>
 
@@ -199,7 +233,7 @@ const Common = ({
           action={handleInput}
           name='basic_type'
           label='Основной тип тура'
-          select_value={basic_type}
+          val={data && data.basic_type}
           options={toursTypes}
         />
       </SingleWrapper>
@@ -213,7 +247,7 @@ const Common = ({
           name='additional_types'
           label='Дополнительные типы тура'
           comment=''
-          select_value={additional_types}
+          val={data && data.additional_types}
           options={toursTypes}
           multiple
         />
@@ -225,7 +259,7 @@ const Common = ({
           name='start_region'
           label='Регион начала тура'
           comment=''
-          select_value={start_region}
+          val={data && data.start_region}
           options={regions}
           // multiple
         />
@@ -237,7 +271,7 @@ const Common = ({
             name='start_country'
             label='Страна начала тура'
             comment=''
-            select_value={start_country}
+            val={data && data.start_country}
             options={countries}
             // multiple
           />
@@ -265,7 +299,7 @@ const Common = ({
             name='start_russian_region'
             label='Российский регион начала тура'
             comment=''
-            select_value={start_russian_region}
+            val={data && data.start_russian_region}
             options={russianRegions}
             // multiple
           />
@@ -278,7 +312,7 @@ const Common = ({
             name='start_city'
             label='Город начала тура'
             comment=''
-            select_value={start_city}
+            val={data && data.start_city}
             options={cities}
             // multiple
           />
@@ -290,7 +324,7 @@ const Common = ({
           name='finish_region'
           label='Регион окончания тура'
           comment=''
-          select_value={finish_region}
+          val={data && data.finish_region}
           options={regions}
           // multiple
         />
@@ -302,7 +336,7 @@ const Common = ({
             name='finish_country'
             label='Страна окончания тура'
             comment=''
-            select_value={finish_country}
+            val={data && data.finish_country}
             options={countries}
             // multiple
           />
@@ -315,7 +349,7 @@ const Common = ({
             name='finish_russian_region'
             label='Российский регион окончания тура'
             comment=''
-            select_value={finish_russian_region}
+            val={data && data.finish_russian_region}
             options={russianRegions}
             // multiple
           />
@@ -328,7 +362,7 @@ const Common = ({
             name='finish_city'
             label='Город окончания тура'
             comment=''
-            select_value={finish_city}
+            val={data && data.finish_city}
             options={cities}
             // multiple
           />
@@ -339,7 +373,7 @@ const Common = ({
         <Input
           action={handleInput}
           name='start_time'
-          value={start_time}
+          value={data && data.start_time}
           type='time'
         />
       </SingleWrapper>
@@ -348,7 +382,7 @@ const Common = ({
         <Input
           action={handleInput}
           name='finish_time'
-          value={finish_time}
+          value={data && data.finish_time}
           type='time'
         />
       </SingleWrapper>
@@ -358,7 +392,7 @@ const Common = ({
         name='direct_link'
         label='Доступ к туру только по прямой ссылке'
         comment='Выбор этой опции уберет ваш тур из выдачи на сайте. Подходит для заказов на индивидуальные программы '
-        value={direct_link}
+        value={data && data.direct_link}
       />
       <Button active={true} action={handleButtonSubmit} />
       {/* <Button active={completed} action={handleButtonSubmit} /> */}
@@ -373,22 +407,7 @@ const mapStateToProps = state => ({
   russianRegions: state.tours.russian_regions,
   cities: state.tours.cities,
   secondary_nav: state.tourSection.secondary_nav,
-
-  additional_types: state.local_tour.tour.additional_types,
-  basic_type: state.local_tour.tour.basic_type,
-  direct_link: state.local_tour.tour.direct_link,
-  finish_city: state.local_tour.tour.finish_city,
-  finish_country: state.local_tour.tour.finish_country,
-  finish_region: state.local_tour.tour.finish_region,
-  finish_russian_region: state.local_tour.tour.finish_russian_region,
-  finish_time: state.local_tour.tour.finish_time,
-  name: state.local_tour.tour.name,
-  start_city: state.local_tour.tour.start_city,
-  start_country: state.local_tour.tour.start_country,
-  start_region: state.local_tour.tour.start_region,
-  start_russian_region: state.local_tour.tour.start_russian_region,
-  start_time: state.local_tour.tour.start_time,
-  wallpaper: state.local_tour.tour.wallpaper,
+  tourName: state.tourSection.tour_name,
 })
 
 export default connect(mapStateToProps, {
@@ -400,5 +419,5 @@ export default connect(mapStateToProps, {
   getCities,
   setSecondaryNav,
   updateTour,
-  update_tour,
+  updateTourWallpaper,
 })(Common)

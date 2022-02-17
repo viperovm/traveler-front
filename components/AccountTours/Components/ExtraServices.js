@@ -52,6 +52,10 @@ const ExtraServices = ({
     action('important')
   }
 
+   useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
+
   return (
     <>
       <div className='my-tours-section-heading'>
@@ -92,7 +96,7 @@ const ExtraServices = ({
 
       <Button
         active={true}
-        action={handleDayAdd}
+        // action={handleDayAdd}
         color='button-primary'
         text='Добавить услугу'
       />

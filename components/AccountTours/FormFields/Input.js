@@ -6,13 +6,15 @@ const Input = ({
   type = 'text',
   value
 }) => {
-  const [data, setData] = useState('')
+  const [data, setData] = useState(value ?? '')
 
-   useEffect(() => {
-     if (value) {
-       setData(value)
-     }
-   }, [])
+console.log(data)
+
+  //  useEffect(() => {
+  //    if (value) {
+  //      setData(value)
+  //    }
+  //  }, [value])
 
   const handleData = e => {
     setData(e.target.value)

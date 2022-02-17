@@ -15,10 +15,9 @@ import {
   getRussianRegions,
   getCities,
   updateTour,
+  getCurrencies,
 } from '../../../redux/actions/toursActions'
-import {
-  setSecondaryNav,
-} from '../../../redux/actions/tourSectionActions'
+import { setSecondaryNav } from '../../../redux/actions/tourSectionActions'
 import TrippleWrapper from '../Wrappers/TrippleWrapper'
 
 const Prices = ({
@@ -28,6 +27,8 @@ const Prices = ({
   secondary_nav,
   setSecondaryNav,
   updateTour,
+  getCurrencies,
+  currencies,
 }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
@@ -39,30 +40,53 @@ const Prices = ({
     })
   }
 
+  const handlePrcInput = (name, value) => {
+
+    if(value === '%') {
+      setData({
+        ...data,
+        [name]: true,
+      })
+    } else {
+      setData({
+        ...data,
+        [name]: false,
+      })
+    }
+  }
+
+  console.log(currencies)
+
+  useEffect(() => {
+    if (tour) {
+      setData({
+        instant_booking: tour.instant_booking,
+        currency: tour.currency,
+        start_date: tour.start_date,
+        finish_date: tour.finish_date,
+        week_recurrent: tour.week_recurrent,
+        month_recurrent: tour.month_recurrent,
+        vacants_number: tour.vacants_number,
+        members_number: tour.members_number,
+        price: tour.price,
+        price_comment: tour.price_comment,
+        prepay_amount: tour.prepay_amount,
+        prepay_in_prc: tour.prepay_in_prc,
+        prepay_currency: tour.prepay_currency,
+        prepay_starts: tour.prepay_starts,
+        prepay_finish: tour.prepay_finish,
+        postpay_on_start_day: tour.postpay_on_start_day,
+        postpay_days_before_start: tour.postpay_days_before_start,
+        is_guaranteed: tour.is_guaranteed,
+        flight_included: tour.flight_included,
+        scouting: tour.scouting,
+      })
+    }
+  }, [tour])
+
   useEffect(() => {
     if (data) {
-      if (
-        data.instant_booking &&
-        data.currency &&
-        data.start_date &&
-        data.finish_date &&
-        data.week_recurrent &&
-        data.month_recurrent &&
-        data.vacants_number &&
-        data.members_number &&
-        data.price &&
-        data.price_comment &&
-        data.prepay_amount &&
-        data.prepay_in_prc &&
-        data.prepay_currency &&
-        data.prepay_starts &&
-        data.prepay_finish &&
-        data.postpay_on_start_day &&
-        data.postpay_days_before_start &&
-        data.is_guaranteed &&
-        data.flight_included &&
-        data.scouting
-      ) {
+      if (data.currency && data.start_date && data.finish_date && data.price) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
@@ -101,6 +125,11 @@ const Prices = ({
     action('options')
   }
 
+  useEffect(() => {
+    getCurrencies()
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <>
       <div className='my-tours-section-heading'>
@@ -111,7 +140,7 @@ const Prices = ({
         name='instant_booking'
         label='Возможно моментальное бронирование'
         comment='Если вы выбираете моментальное бронирование - оплата с клиента будет списываться в момент бронирования без вашего подтверждения. '
-        old_data={data}
+        value={data && data.instant_booking}
       />
 
       <SingleWrapper label='Валюта тура' comment=''>
@@ -119,9 +148,8 @@ const Prices = ({
           action={handleInput}
           name='currency'
           label='Валюта тура'
-          old_data={data}
-          options={toursTypes}
-          // multiple
+          val={data && data.currency}
+          options={currencies}
         />
       </SingleWrapper>
 
@@ -130,7 +158,7 @@ const Prices = ({
           action={handleInput}
           name='start_date'
           label='Дата начала тура'
-          old_data={data}
+          value={data && data.start_date}
           type='date'
           // multiple
         />
@@ -138,7 +166,7 @@ const Prices = ({
           action={handleInput}
           name='finish_date'
           label='Дата завершения тура'
-          old_data={data}
+          value={data && data.finish_date}
           type='date'
 
           // multiple
@@ -149,21 +177,21 @@ const Prices = ({
         name='week_recurrent'
         label='Повторять каждую неделю'
         comment=''
-        old_data={data}
+        value={data && data.week_recurrent}
       />
       <CheckboxInput
         action={handleInput}
         name='month_recurrent'
         label='Повторять каждый месяц'
         comment=''
-        old_data={data}
+        value={data && data.month_recurrent}
       />
       <DoubleWrapper ratio='1-2'>
         <Input
           action={handleInput}
           name='vacants_number'
           label='Осталось мест'
-          old_data={data}
+          value={data && data.vacants_number}
           // type='date'
           // multiple
         />
@@ -171,7 +199,7 @@ const Prices = ({
           action={handleInput}
           name='members_number'
           label='Всего мест'
-          old_data={data}
+          value={data && data.members_number}
           // type='date'
 
           // multiple
@@ -183,7 +211,7 @@ const Prices = ({
           action={handleInput}
           name='price'
           label='Стоимость'
-          old_data={data}
+          value={data && data.price}
         />
       </SingleWrapper>
       <SingleWrapper label='Комментарий к стоимости' comment=''>
@@ -191,7 +219,7 @@ const Prices = ({
           action={handleInput}
           name='price_comment'
           label='Комментарий к стоимости'
-          old_data={data}
+          value={data && data.price_comment}
         />
       </SingleWrapper>
 
@@ -200,24 +228,24 @@ const Prices = ({
           action={handleInput}
           name='prepay_amount'
           label='Предоплата'
-          old_data={data}
+          value={data && data.prepay_amount}
           // type='date'
           // multiple
         />
         <SelectInput
-          action={handleInput}
+          action={handlePrcInput}
           name='prepay_in_prc'
-          label='%'
-          old_data={data}
-          options={toursTypes}
+          label='Номинал'
+          value={data && data.prepay_in_prc}
+          options={[{id: 0, name: 'Число'}, { id: 1, name: '%' } ]}
           // multiple
         />
         <SelectInput
           action={handleInput}
           name='prepay_currency'
           label='Валюта'
-          old_data={data}
-          options={toursTypes}
+          value={data && data.prepay_currency}
+          options={currencies}
           // multiple
         />
       </TrippleWrapper>
@@ -227,7 +255,7 @@ const Prices = ({
           action={handleInput}
           name='prepay_starts'
           label='Действует с:'
-          old_data={data}
+          value={data && data.prepay_starts}
           type='date'
           // multiple
         />
@@ -235,7 +263,7 @@ const Prices = ({
           action={handleInput}
           name='prepay_finish'
           label='Действует до:'
-          old_data={data}
+          value={data && data.prepay_finish}
           type='date'
 
           // multiple
@@ -246,7 +274,7 @@ const Prices = ({
         name='postpay_on_start_day'
         label='Постоплата в день старта'
         comment=''
-        old_data={data}
+        value={data && data.postpay_on_start_day}
       />
 
       <SingleWrapper label='Вносится за дней до старта ' comment=''>
@@ -254,7 +282,7 @@ const Prices = ({
           action={handleInput}
           name='postpay_days_before_start'
           label='Вносится за дней до старта '
-          old_data={data}
+          value={data && data.postpay_days_before_start}
         />
       </SingleWrapper>
 
@@ -265,21 +293,21 @@ const Prices = ({
         comment='
 “Тур гарантирован“ означает, что он точно состоится и дополнительного подтверждения с вашей стороны не требуется. Отмена гарантированного тура после получения предоплаты влечет начисление штрафа (см. раздел VI. Изменение бронирования, отмена и возврат)
 '
-        old_data={data}
+        value={data && data.is_guaranteed}
       />
       <CheckboxInput
         action={handleInput}
         name='flight_included'
         label='В стоимость включен перелёт'
         comment=''
-        old_data={data}
+        value={data && data.flight_included}
       />
       <CheckboxInput
         action={handleInput}
         name='scouting'
         label='Разведка'
         comment=''
-        old_data={data}
+        value={data && data.scouting}
       />
       <Button active={true} action={handleButtonSubmit} />
       {/* <Button active={completed} /> */}
@@ -294,6 +322,7 @@ const mapStateToProps = state => ({
   russianRegions: state.tours.russian_regions,
   cities: state.tours.cities,
   secondary_nav: state.tourSection.secondary_nav,
+  currencies: state.tours.currencies,
 })
 
 export default connect(mapStateToProps, {
@@ -305,4 +334,5 @@ export default connect(mapStateToProps, {
   getCities,
   setSecondaryNav,
   updateTour,
+  getCurrencies,
 })(Prices)

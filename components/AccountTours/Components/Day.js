@@ -30,6 +30,10 @@ const Day = ({ id, action }) => {
     action(data, id)
   }, [data])
 
+   useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
+
   return (
     <>
       <SingleWrapper

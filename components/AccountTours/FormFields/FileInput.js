@@ -6,23 +6,27 @@ const FileInput = ({ action, name, value, max }) => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const [active, setActive] = useState(true)
+  const [preview, setPreview] = useState([])
 
   const inputFileRef = useRef(null)
 
-   useEffect(() => {
-     if (value) {
-       setData(value)
-     }
-   },[])
-
+  console.log(value)
 
   useEffect(() => {
-    if(max) {
-      if(data.length >= max) {
+    if (value) {
+      let arr = preview
+      arr.push(value)
+      setPreview(arr)
+    }
+  }, [value])
+
+  useEffect(() => {
+    if (max) {
+      if (preview.length >= max) {
         setActive(false)
       }
     }
-  }, [max, data])
+  }, [max, preview])
 
   const onBtnClick = () => {
     /*Collecting node-element and performing click*/
@@ -31,34 +35,32 @@ const FileInput = ({ action, name, value, max }) => {
 
   const onFilechange = e => {
     setLoading(true)
-    let arr = data
-    let preview = URL.createObjectURL(e.target.files[0])
-    arr.push({ src: preview })
-    setData(arr)
-    /*Selected files data can be collected here.*/
-    console.log(e.target.files)
-    // setLoading(false)
+    if (e.target.files[0]) {
+      setData(e.target.files[0])
+      action(e.target.files[0])
+    }
+    
   }
 
   useEffect(() => {
-    if (data && loading) {
+    if (preview && loading) {
       setLoading(false)
     }
-  }, [data, loading])
+  }, [preview, loading])
 
-  useEffect(() => {
-    if (value) {
-      setData(value)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (value) {
+  //     setData(value)
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    action(name, data)
-  }, [data])
+  // useEffect(() => {
+  //   action(data)
+  // }, [data])
 
-  const handleData = e => {
-    setData(e.target.value)
-  }
+  // const handleData = e => {
+  //   setData(e.target.value)
+  // }
   // const handleSend = () => {
   //   action(name, data)
   // }
@@ -83,12 +85,12 @@ const FileInput = ({ action, name, value, max }) => {
           <div className='camera-image' />
           <div className='fake-file-input-text'>Добавить новое фото</div>
         </div>
-        {data.map((item, index) => (
+        {preview.map((item, index) => (
           <>
             <div
               className='fake-file-input image-container'
               style={{
-                backgroundImage: 'url(' + item.src + ')',
+                backgroundImage: 'url(' + item + ')',
               }}
               key={index}
             />

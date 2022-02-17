@@ -59,6 +59,10 @@ const Photos = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
     // action('details')
   }
 
+   useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
+
   return (
     <>
       <div className='my-tours-section-heading'>

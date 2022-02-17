@@ -27,6 +27,10 @@ const Modal = ({
     setActive(false)
   }
 
+   useEffect(() => {
+     window.scrollIntoView({ behavior: 'smooth' })
+   }, [])
+
   return (
     <>
       <button disabled={disabled} onClick={handleOpen} className='modal-button'>

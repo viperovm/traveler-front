@@ -77,7 +77,7 @@ export const updateTour = (data, id) => async dispatch => {
   }
 }
 
-export const updateTourImages = (name, image, id) => async dispatch => {
+export const updateTourWallpaper = (image, id) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -85,9 +85,12 @@ export const updateTourImages = (name, image, id) => async dispatch => {
     },
   }
 
+  console.log(image)
+
+
   let form_data = new FormData()
 
-  form_data.append(name, image)
+  form_data.append('wallpaper', image, image.name)
 
   try {
     const res = await axios.patch(
@@ -291,9 +294,54 @@ export const getCities =
     }
   }
 
-  export const clearCurrentTour = () => async dispatch => {
-    dispatch({
-      type: t.CLEAR_CURRENT_TOUR,
-    })
+export const getCurrencies = () =>
+  async dispatch => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json',
+      },
+    }
+
+    try {
+      const res = await axios.get(
+        `${API_URL}/api/currencies/`,
+        config
+      )
+
+      console.log(res.data)
+
+      dispatch({
+        type: t.GET_CURRENCIES_SUCCESS,
+        payload: res.data,
+      })
+    } catch (err) {
+      dispatch({
+        type: t.GET_CURRENCIES_FAIL,
+      })
+    }
+  }
+
+  export const clearCurrentTour = (id) => async dispatch => {
+     const config = {
+       headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `JWT ${localStorage.getItem('access')}`,
+         'Accept': 'application/json',
+       },
+     }
+
+     try {
+       const res = await axios.delete(`${API_URL}/api/tours/${id}`, config)
+
+       dispatch({
+         type: t.CLEAR_CURRENT_TOUR,
+       })
+     } catch (err) {
+       dispatch({
+         type: t.CLEAR_CURRENT_TOUR_FAIL,
+       })
+     }
   }
 

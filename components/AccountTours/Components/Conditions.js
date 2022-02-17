@@ -64,6 +64,10 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
     action('services')
   }
 
+   useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
+
   return (
     <>
       <div className='my-tours-section-heading'>

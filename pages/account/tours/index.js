@@ -27,17 +27,17 @@ const MyTours = ({
   openSecondaryMenu,
 }) => {
   const [editing, setEditing] = useState(false)
+  const [title, setTitle] = useState('Название тура')
 
   const handleTourDelete = () => {
     setEditing(false)
-    clearCurrentTour()
+    clearCurrentTour(current_tour.id)
   }
 
   useEffect(() => {
     openSecondaryMenu(editing)
   }, [editing])
 
-  const [title, setTitle] = useState('Название тура')
 
   useEffect(() => {
     tourName && setTitle(tourName)

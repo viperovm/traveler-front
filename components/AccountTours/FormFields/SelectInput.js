@@ -8,7 +8,6 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
 
-
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
@@ -29,28 +28,37 @@ function getStyles(name, personName, theme) {
   }
 }
 
-const SelectInput = ({ action, name, label, select_value, options, multiple }) => {
-const theme = useTheme()
-  const [data, setData] = useState(null)
-
+const SelectInput = ({ action, name, label, val, options, multiple }) => {
+  const theme = useTheme()
+  const [data, setData] = useState([])
 
   const [newOptions, setNewOptions] = useState({})
 
-  //  useEffect(() => {
-  //    if (select_value) {
-  //      setData(select_value)
-  //    }
-  //  }, [])
+  useEffect(() => {
+    if (val) {
+      let arr = []
+      if (Array.isArray(val)) {
+        arr = val
+        console.log(arr)
+      } else {
+        arr.push(val)
+      }
+       setData(arr)
+      console.log(Array.isArray(val))
+      console.log(data)
+    }
+  }, [val])
 
-
-  const getObject = (arr) => {
+  const getObject = arr => {
+    console.log(arr)
     let obj = {}
-    for(let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
       obj = {
         ...obj,
-        [arr[i].id]: arr[i].name
+        [arr[i].id]: arr[i].name,
       }
     }
+    console.log(obj)
     setNewOptions(obj)
   }
 
@@ -73,12 +81,16 @@ const theme = useTheme()
     action(name, value)
   }
 
+  const selected = (data, id) => {
+    return data.includes(id)
+  }
+
   return (
     <Select
       labelId='demo-multiple-chip-label'
       id='demo-multiple-chip'
       multiple={multiple}
-      value={data ? data : multiple ? [] : ''}
+      value={data ?? []}
       onChange={handleData}
       displayEmpty
       // input={<OutlinedInput id='select-multiple-chip' />}
@@ -97,7 +109,7 @@ const theme = useTheme()
         <em>Выберите {label}</em>
       </MenuItem>
       {Object.keys(newOptions).map(id => (
-        <MenuItem key={id} value={id}>
+        <MenuItem key={id} value={id} selected={() => selected(data, id)}>
           {newOptions[id]}
         </MenuItem>
       ))}

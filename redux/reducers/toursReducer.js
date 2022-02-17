@@ -7,6 +7,7 @@ const initialState = {
   countries: [],
   russian_regions: [],
   cities: [],
+  currencies: [],
 }
 
 const toursReducer = (state = initialState, action) => {
@@ -18,7 +19,19 @@ const toursReducer = (state = initialState, action) => {
         ...state,
         tour_types: payload,
       }
+    case t.ADD_TOUR_SUCCESS:
+    case t.UPDATE_TOUR_SUCCESS:
+      return {
+        ...state,
+        current_tour: payload,
+      }
+    case t.UPDATE_TOUR_FAIL:
+    case t.CLEAR_CURRENT_TOUR_FAIL:
+      return {
+        ...state,
+      }
     case t.CLEAR_CURRENT_TOUR:
+    case t.ADD_TOUR_FAIL:
       return {
         ...state,
         current_tour: {},
@@ -36,7 +49,17 @@ const toursReducer = (state = initialState, action) => {
     case t.GET_TOUR_FAIL:
       return {
         ...state,
-        current_tour: [],
+        current_tour: {},
+      }
+    case t.GET_CURRENCIES_SUCCESS:
+      return {
+        ...state,
+        currencies: payload,
+      }
+    case t.GET_CURRENCIES_FAIL:
+      return {
+        ...state,
+        currencies: [],
       }
 
     case t.GET_REGIONS_SUCCESS:

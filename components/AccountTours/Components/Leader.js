@@ -166,6 +166,10 @@ const Leader = ({
     action('conditions')
   }
 
+   useEffect(() => {
+     window.scrollTo(0, 0)
+   }, [])
+
   return (
     <>
       <div className='my-tours-section-heading'>
