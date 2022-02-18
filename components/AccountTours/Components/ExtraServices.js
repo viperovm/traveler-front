@@ -14,11 +14,13 @@ import {
 import { updateTour } from '../../../redux/actions/toursActions'
 
 const ExtraServices = ({
+  tour,
   action,
   toursTypes,
   secondary_nav,
   setSecondaryNav,
   updateTour,
+  currencies,
 }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
@@ -48,13 +50,18 @@ const ExtraServices = ({
   }, [])
 
   const handleButtonSubmit = () => {
-    // updateTour(data)
+    updateTour(data, tour.id)
     action('important')
   }
 
-   useEffect(() => {
-     window.scrollTo(0, 0)
-   }, [])
+  const handleButtonBack = () => {
+    action('conditions')
+  }
+
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
@@ -67,7 +74,6 @@ const ExtraServices = ({
           action={handleInput}
           name='extra_text'
           old_data={data}
-          options={toursTypes}
           // multiple
         />
       </SingleWrapper>
@@ -87,9 +93,9 @@ const ExtraServices = ({
         <SelectInput
           action={handleInput}
           name='extra_currency'
-          label=''
+          label='Валюта'
           old_data={data}
-          options={toursTypes}
+          options={currencies}
           // multiple
         />
       </DoubleWrapper>
@@ -111,8 +117,21 @@ const ExtraServices = ({
         />
       </SingleWrapper>
 
-      <Button active={true} action={handleButtonSubmit} />
-      {/* <Button active={completed} /> */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '66%',
+        }}
+      >
+        <Button
+          color='button-primary'
+          active={true}
+          action={handleButtonBack}
+          text='Назад'
+        />
+        <Button active={true} action={handleButtonSubmit} />
+      </div>
     </>
   )
 }
@@ -120,6 +139,7 @@ const ExtraServices = ({
 const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
   secondary_nav: state.tourSection.secondary_nav,
+  currencies: state.tours.currencies,
 })
 
 export default connect(mapStateToProps, {

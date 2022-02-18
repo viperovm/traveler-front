@@ -15,7 +15,7 @@ import Leader from '../Components/Leader'
 import Conditions from '../Components/Conditions'
 import ExtraServices from '../Components/ExtraServices'
 import Important from '../Components/Important'
-import Gallery from '../Components/Gallery'
+import Photos from '../Components/Photos'
 
 const AddTour = ({
   getTourTypes,
@@ -25,6 +25,7 @@ const AddTour = ({
   currentSection,
   setCurrentSection,
   current_tour,
+  completed,
 }) => {
   // const [currentSection, setCurrentSection] = useState('common')
   const [tourId, setTourId] = useState(null)
@@ -41,6 +42,10 @@ const AddTour = ({
     getTourTypes()
     setPage('tours')
   }, [])
+
+  const handleComplete = () => {
+    completed()
+  }
 
   // const [sectionStatus, sectionSetStatus] = useState({
   //   common: false,
@@ -86,7 +91,11 @@ const AddTour = ({
           <Important action={setCurrentSection} tour={current_tour} />
         )}
         {currentSection === 'photos' && (
-          <Gallery action={setCurrentSection} tour={current_tour} />
+          <Photos
+            done={handleComplete}
+            action={setCurrentSection}
+            tour={current_tour}
+          />
         )}
       </div>
     </>

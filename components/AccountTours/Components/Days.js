@@ -18,6 +18,7 @@ import {
   getRussianRegions,
   getCities,
   updateTour,
+  addDay,
 } from '../../../redux/actions/toursActions'
 import {
   setActiveSections,
@@ -33,7 +34,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
 
-function TabPanel({ children, value, index }) {
+function TabPanel({ children, value, index,  }) {
 
   return (
     <div
@@ -58,34 +59,42 @@ function a11yProps(index) {
   }
 }
 
-
-
-
 const Days = ({
+  tour,
   action,
   getRegions,
   secondary_nav,
   setSecondaryNav,
   updateTour,
+  addDay,
 }) => {
   const [data, setData] = useState([])
   const [completed, setCompleted] = useState(false)
 
   const [value, setValue] = useState(0)
 
-  const [days, setDays] = useState([1, ])
+  const [days, setDays] = useState([1])
   const [loading, setLoading] = useState(false)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
 
-  console.log('days data: ', data)
-
-
   useEffect(() => {
-    getRegions()
-  }, [])
+    if (tour) {
+      setData(tour.tour_days)
+    }
+    let arr = []
+    for (let i = 1; i <= tour.tour_days.length; i++) {
+      arr.push(i)
+    }
+    setDays(arr)
+  }, [tour])
+
+  
+
+  console.log('days data: ', data)
+  console.log(tour.id)
 
   const handleInput = (value, id) => {
     let arr = data.filter(item => item.day_id !== id)
@@ -143,20 +152,21 @@ const Days = ({
 
   const handleDayAdd = () => {
     setLoading(true)
-    let arr = days
-    let number = days[days.length - 1]
-    arr.push(number+1)
-    setDays(arr)
+    addDay(tour.id)
   }
 
   const handleButtonSubmit = () => {
-    updateTour(data)
+    updateTour(data, tour.id)
     action('leader')
+  }
+
+  const handleButtonBack = () => {
+    action('details')
   }
 
   return (
     <>
-      {days.length > 1 && (
+      {data.length > 1 && (
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs
@@ -171,21 +181,35 @@ const Days = ({
               ))}
             </Tabs>
           </Box>
-          {days.map((item, index) => (
+          {data.map((item, index) => (
             <TabPanel key={index} value={value} index={index}>
-              <Day id={item} action={handleInput} />
+              <Day id={index + 1} action={handleInput} day={item} />
             </TabPanel>
           ))}
         </Box>
       )}
-      {days.length === 1 && <Day id={days[0]} action={handleInput} />}
+      {data.length === 1 && <Day id={data[0]} action={handleInput} />}
       <Button
         active={true}
         action={handleDayAdd}
         color='button-primary'
         text='Добавить день'
       />
-      <Button active={true} action={handleButtonSubmit} />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '66%',
+        }}
+      >
+        <Button
+          color='button-primary'
+          active={true}
+          action={handleButtonBack}
+          text='Назад'
+        />
+        <Button active={true} action={handleButtonSubmit} />
+      </div>
     </>
   )
 }
@@ -208,4 +232,5 @@ export default connect(mapStateToProps, {
   getCities,
   setSecondaryNav,
   updateTour,
+  addDay,
 })(Days)

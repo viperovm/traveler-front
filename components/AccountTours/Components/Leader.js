@@ -28,6 +28,7 @@ import Modal from './Modal'
 import TrippleWrapper from '../Wrappers/TrippleWrapper'
 
 const Leader = ({
+  tour,
   action,
   tour_id,
   setTourName,
@@ -65,12 +66,6 @@ const Leader = ({
   const [modalTitle, setModalTitle] = useState('Тестовое название')
   const [modalActive, setModalActive] = useState(true)
 
-  console.log(completed)
-  console.log(data)
-
-  useEffect(() => {
-    getRegions()
-  }, [])
 
   const handleInput = (name, value) => {
     setData({
@@ -162,9 +157,14 @@ const Leader = ({
   }, [data])
 
   const handleButtonSubmit = () => {
-    // updateTour(data)
+    updateTour(data, tour.id )
     action('conditions')
   }
+
+  const handleButtonBack = () => {
+    action('day')
+  }
+
 
    useEffect(() => {
      window.scrollTo(0, 0)
@@ -234,8 +234,21 @@ const Leader = ({
         />
       </SingleWrapper>
 
-      <Button active={true} action={handleButtonSubmit} />
-      {/* <Button active={completed} /> */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '66%',
+        }}
+      >
+        <Button
+          color='button-primary'
+          active={true}
+          action={handleButtonBack}
+          text='Назад'
+        />
+        <Button active={true} action={handleButtonSubmit} />
+      </div>
     </>
   )
 }

@@ -17,7 +17,7 @@ import {
 import { updateTour } from '../../../redux/actions/toursActions'
 
 
-const Important = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
+const Important = ({ tour, action, secondary_nav, setSecondaryNav, updateTour }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
 
@@ -65,8 +65,12 @@ const Important = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
   }, [data])
 
   const handleButtonSubmit = () => {
-    // updateTour(data)
+    updateTour(data, tour.id)
     action('photos')
+  }
+
+  const handleButtonBack = () => {
+    action('conditions')
   }
 
    useEffect(() => {
@@ -83,7 +87,7 @@ const Important = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
         <TextEditor
           action={handleInput}
           name='guest_requirements'
-          old_data={data}
+          value={data}
           // options={toursTypes}
           // multiple
         />
@@ -92,13 +96,26 @@ const Important = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
         <TextEditor
           action={handleInput}
           name='important_comments'
-          old_data={data}
+          value={data}
           // options={toursTypes}
           // multiple
         />
       </SingleWrapper>
-      <Button active={true} action={handleButtonSubmit} />
-      {/* <Button active={completed} /> */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '66%',
+        }}
+      >
+        <Button
+          color='button-primary'
+          active={true}
+          action={handleButtonBack}
+          text='Назад'
+        />
+        <Button active={true} action={handleButtonSubmit} />
+      </div>
     </>
   )
 }

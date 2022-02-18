@@ -3,12 +3,18 @@ import { useState, useEffect } from 'react'
 const TextArea = ({
   action,
   name,
-  old_data,
+  value,
   label,
   type = 'text',
   rows = '5',
 }) => {
   const [data, setData] = useState('')
+
+  useEffect(() => {
+    if (value) {
+      setData(value)
+    }
+  }, [value])
 
   const handleData = e => {
     setData(e.target.value)

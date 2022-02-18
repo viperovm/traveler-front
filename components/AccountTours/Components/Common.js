@@ -103,9 +103,6 @@ const Common = ({
     }
   }, [tour])
 
-  console.log(data)
-  console.log(data.name)
-
   useEffect(() => {
     getRegions()
   }, [])

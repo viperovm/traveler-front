@@ -55,8 +55,6 @@ const Prices = ({
     }
   }
 
-  console.log(currencies)
-
   useEffect(() => {
     if (tour) {
       setData({

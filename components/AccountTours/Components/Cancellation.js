@@ -10,6 +10,7 @@ import {
 import { updateTour } from '../../../redux/actions/toursActions'
 
 const Cancellation = ({
+  tour,
   action,
   secondary_nav,
   setSecondaryNav,
@@ -26,13 +27,24 @@ const Cancellation = ({
   }
 
   useEffect(() => {
+    if (tour) {
+      setData({
+        ...data,
+        cancellation_terms: tour.cancellation_terms,
+      })
+    }
+  }, [tour])
+
+  console.log(data)
+
+  useEffect(() => {
     if (data) {
       if (data.cancellation_terms) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
           arr.map(item => {
-            if (item.value === 'cancellation') {
+            if (item.value === 'options') {
               return {
                 ...item,
                 active: true,
@@ -47,7 +59,7 @@ const Cancellation = ({
         let arr = secondary_nav
         setSecondaryNav(
           arr.map(item => {
-            if (item.value === 'cancellation') {
+            if (item.value === 'options') {
               return {
                 ...item,
                 active: false,
@@ -62,8 +74,12 @@ const Cancellation = ({
   }, [data])
 
   const handleButtonSubmit = () => {
-    updateTour(data)
+    updateTour(data, tour.id)
     action('details')
+  }
+
+  const handleButtonBack = () => {
+    action('prices')
   }
 
    useEffect(() => {
@@ -84,11 +100,25 @@ const Cancellation = ({
           action={handleInput}
           name='cancellation_terms'
           label=''
-          old_data={data}
+          value={data && data.cancellation_terms}
           rows='7'
         />
       </SingleWrapper>
-      <Button active={true} action={handleButtonSubmit} />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '66%',
+        }}
+      >
+        <Button
+          color='button-primary'
+          active={true}
+          action={handleButtonBack}
+          text='Назад'
+        />
+        <Button active={true} action={handleButtonSubmit} />
+      </div>
     </>
   )
 }

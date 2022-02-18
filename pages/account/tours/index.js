@@ -3,6 +3,7 @@ import {
   getTourTypes,
   clearCurrentTour,
   addTour,
+  updateTour,
 } from '../../../redux/actions/toursActions'
 import {
   zeroingData,
@@ -10,38 +11,63 @@ import {
 } from '../../../redux/actions/tourSectionActions'
 import { connect } from 'react-redux'
 import Account from '../../../layouts/account/account'
-import { setPage } from '../../../redux/actions/authActions'
+import { setPage,  } from '../../../redux/actions/authActions'
 import AddTour from '../../../components/AccountTours/Containers/AddTour'
 import ToursList from '../../../components/AccountTours/Containers/ToursList'
 
 const MyTours = ({
-  getTourTypes,
-  toursTypes,
-  setPage,
-  status,
-  tourName,
   zeroingData,
   addTour,
   current_tour,
   clearCurrentTour,
   openSecondaryMenu,
+  updateTour,
 }) => {
   const [editing, setEditing] = useState(false)
-  const [title, setTitle] = useState(current_tour.name ?? 'Название тура')
+  const [title, setTitle] = useState('Название тура')
 
   const handleTourDelete = () => {
     setEditing(false)
     clearCurrentTour(current_tour.id)
   }
 
+  const handleCompleted = () => {
+    zeroingData()
+    setEditing(false)
+  }
+
+  const handleModeration = () => {
+    updateTour({
+      ...current_tour,
+      on_moderation: true,
+    }, current_tour.id)
+    zeroingData()
+    setEditing(false)
+  }
+
+  const handleDraft = () => {
+    updateTour(
+      {
+        ...current_tour,
+        is_draft: true,
+      },
+      current_tour.id
+    )
+    zeroingData()
+    setEditing(false)
+  }
+
   useEffect(() => {
     openSecondaryMenu(editing)
   }, [editing])
 
-
-  // useEffect(() => {
-  //   tourName && setTitle(tourName)
-  // }, [tourName])
+  useEffect(() => {
+    if (current_tour && current_tour.name) {
+      setTitle(current_tour.name)
+    } else {
+      setTitle('Название тура')
+    }
+  }, [current_tour])
 
   const handleEditingButton = () => {
     if (current_tour && current_tour.id) {
@@ -94,13 +120,15 @@ const MyTours = ({
             <div className='control-buttons-set'>
               {editing && (
                 <>
-                  <button>В черновик</button>
-                  <button className='button-green'>На модерацию</button>
+                  <button onClick={handleDraft}>В черновик</button>
+                  <button className='button-green' onClick={handleModeration}>
+                    На модерацию
+                  </button>
                 </>
               )}
             </div>
           </div>
-          {editing ? <AddTour /> : <ToursList />}
+          {editing ? <AddTour completed={handleCompleted} /> : <ToursList />}
         </main>
       </Account>
     </>
@@ -121,4 +149,5 @@ export default connect(mapStateToProps, {
   addTour,
   clearCurrentTour,
   openSecondaryMenu,
+  updateTour,
 })(MyTours)

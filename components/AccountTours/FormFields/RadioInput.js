@@ -1,13 +1,20 @@
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 
 
 
-const RadioInput = ({ label, comment, action, name }) => {
+const RadioInput = ({ label, comment, action, name, value }) => {
   const [data, setData] = useState('')
 
   console.log(data)
 
+  useEffect(() => {
+    if (value) {
+      setData(value)
+    }
+  }, [value])
+
   const handleData = e => {
+    console.log(e.target.value)
     setData(e.target.value)
     action(name, e.target.value)
   }
@@ -20,9 +27,9 @@ const RadioInput = ({ label, comment, action, name }) => {
             <label className='radio-input-container'>
               <input
                 type='radio'
-                checked={data === '1'}
+                checked={data == 1}
                 name='radio'
-                value='1'
+                value={1}
                 onChange={handleData}
               />
               <span className='checkmark'>1</span>
@@ -30,9 +37,9 @@ const RadioInput = ({ label, comment, action, name }) => {
             <label className='radio-input-container'>
               <input
                 type='radio'
-                checked={data === '2'}
+                checked={data == 2}
                 name='radio'
-                value='2'
+                value={2}
                 onChange={handleData}
               />
               <span className='checkmark'>2</span>
@@ -40,9 +47,9 @@ const RadioInput = ({ label, comment, action, name }) => {
             <label className='radio-input-container'>
               <input
                 type='radio'
-                checked={data === '3'}
+                checked={data == 3}
                 name='radio'
-                value='3'
+                value={3}
                 onChange={handleData}
               />
               <span className='checkmark'>3</span>
@@ -50,9 +57,9 @@ const RadioInput = ({ label, comment, action, name }) => {
             <label className='radio-input-container'>
               <input
                 type='radio'
-                checked={data === '4'}
+                checked={data == 4}
                 name='radio'
-                value='4'
+                value={4}
                 onChange={handleData}
               />
               <span className='checkmark'>4</span>
@@ -60,9 +67,9 @@ const RadioInput = ({ label, comment, action, name }) => {
             <label className='radio-input-container'>
               <input
                 type='radio'
-                checked={data === '5'}
+                checked={data == 5}
                 name='radio'
-                value='5'
+                value={5}
                 onChange={handleData}
               />
               <span className='checkmark'>5</span>

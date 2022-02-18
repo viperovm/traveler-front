@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
 import DoubleWrapper from '../Wrappers/DoubleWrapper'
 import Input from '../FormFields/Input'
-import FileInput from '../FormFields/FileInput'
+import ObjectFileInput from '../FormFields/ObjectFileInput'
 import RadioInput from '../FormFields/RadioInput'
 import TextEditor from '../FormFields/TextEditor'
 import TextArea from '../FormFields/TextArea'
@@ -12,17 +12,26 @@ import Button from './Button'
 
 import { connect } from 'react-redux'
 import { setTourName } from '../../../redux/actions/tourSectionActions'
-import { getTourTypes, updateTour } from '../../../redux/actions/toursActions'
+import {
+  getTourTypes,
+  updateTour,
+  getLanguages,
+  setPropertyImage,
+} from '../../../redux/actions/toursActions'
 import {
   setSecondaryNav,
 } from '../../../redux/actions/tourSectionActions'
 
 const Details = ({
+  tour,
   action,
   toursTypes,
   secondary_nav,
   setSecondaryNav,
   updateTour,
+  getLanguages,
+  languages,
+  setPropertyImage,
 }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
@@ -35,21 +44,36 @@ const Details = ({
   }
 
   useEffect(() => {
+    getLanguages()
+  }, [])
+
+  useEffect(() => {
+    if (tour) {
+      setData({
+        languages: tour.languages,
+        difficulty_level: tour.difficulty_level,
+        difficulty_description: tour.difficulty_description,
+        comfort_level: tour.comfort_level,
+        tour_property_types: tour.tour_property_types,
+        accomodation: tour.accomodation,
+        hotel_name: tour.hotel_name,
+        tour_property_images: tour.tour_property_images,
+        age_starts: tour.age_starts,
+        age_ends: tour.age_ends,
+        babies_alowed: tour.babies_alowed,
+        animals_not_exploited: tour.animals_not_exploited,
+        media_link: tour.media_link,
+        description: tour.description,
+        main_impressions: tour.main_impressions,
+        plan: tour.plan,
+      })
+    }
+  }, [tour])
+
+  useEffect(() => {
     if (data) {
       if (
         data.languages &&
-        data.difficulty_level &&
-        data.difficulty_description &&
-        data.comfort_level &&
-        data.tour_property_types &&
-        data.accomodation &&
-        data.hotel_name &&
-        data.tour_property_images &&
-        data.age_starts &&
-        data.age_ends &&
-        data.babies_alowed &&
-        data.animals_not_exploited &&
-        data.media_link &&
         data.description &&
         data.main_impressions &&
         data.plan
@@ -87,14 +111,22 @@ const Details = ({
     }
   }, [data])
 
+  const handleImageLoad = (image) => {
+    setPropertyImage(image, tour.id)
+  }
+
   const handleButtonSubmit = () => {
-    updateTour(data)
+    updateTour(data, tour.id)
     action('day')
   }
 
-   useEffect(() => {
-     window.scrollTo(0, 0)
-   }, [])
+  const handleButtonBack = () => {
+    action('options')
+  }
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
@@ -106,13 +138,19 @@ const Details = ({
         label='На каком языке говорят в путешествии'
         comment='Выбирайте только те языки, на которых будут говорить в путешествии '
       >
-        <Input action={handleInput} name='languages' label='' old_data={data} />
+        <SelectInput
+          action={handleInput}
+          name='languages'
+          label='Валюта тура'
+          val={data && data.languages}
+          options={languages}
+        />
       </SingleWrapper>
       <RadioInput
         action={handleInput}
         name='difficulty_level'
         label='Укажите сложность программы'
-        old_data={data}
+        value={data && data.difficulty_level}
         comment='Уровень активности должен соответствовать нагрузкам, которые ожидаются в путешествии. Градацию уровней активности можно посмотреть здесь'
       />
       <SingleWrapper
@@ -123,7 +161,7 @@ const Details = ({
           action={handleInput}
           name='difficulty_description'
           label=''
-          old_data={data}
+          value={data && data.difficulty_description}
           rows='7'
         />
       </SingleWrapper>
@@ -131,7 +169,7 @@ const Details = ({
         action={handleInput}
         name='comfort_level'
         label='Как вы оцениваете уровень комфорта в путешествии?'
-        old_data={data}
+        value={data && data.comfort_level}
         comment='Комфорт - один из главных критериев выбора путешествия. Градацию уровней комфорта можно посмотреть здесь'
       />
       <SingleWrapper label='Где планируется проживание' comment=''>
@@ -139,7 +177,7 @@ const Details = ({
           action={handleInput}
           name='tour_property_types'
           label='Где планируется проживание'
-          old_data={data}
+          value={data && data.tour_property_types}
           options={toursTypes}
           // multiple
         />
@@ -149,7 +187,7 @@ const Details = ({
           action={handleInput}
           name='accomodation'
           label='Размещение'
-          old_data={data}
+          value={data && data.accomodation}
           options={toursTypes}
           // multiple
         />
@@ -161,7 +199,7 @@ const Details = ({
         <Input
           action={handleInput}
           name='hotel_name'
-          old_data={data}
+          value={data && data.hotel_name}
           options={toursTypes}
           // multiple
         />
@@ -170,11 +208,10 @@ const Details = ({
         label='Добавить фото мест проживания в путешествии'
         comment=''
       >
-        <FileInput
-          action={handleInput}
+        <ObjectFileInput
+          action={handleImageLoad}
           name='tour_property_images'
-          old_data={data}
-          options={toursTypes}
+          value={data && data.tour_property_images}
           type='file'
           // multiple
         />
@@ -185,7 +222,7 @@ const Details = ({
           action={handleInput}
           name='age_starts'
           label='Возраст участников от:'
-          old_data={data}
+          value={data && data.age_starts}
           // type=''
           // multiple
         />
@@ -193,7 +230,7 @@ const Details = ({
           action={handleInput}
           name='age_ends'
           label='Возраст участников до:'
-          old_data={data}
+          value={data && data.age_ends}
           // type='date'
 
           // multiple
@@ -205,21 +242,21 @@ const Details = ({
         name='babies_alowed'
         label='Возможно участие с маленькими детьми'
         comment=''
-        old_data={data}
+        value={data && data.babies_alowed}
       />
       <CheckboxInput
         action={handleInput}
         name='animals_not_exploited'
         label='В программе не эксплуатируются животные'
         comment='Если в вашей поездке не используется труд животных - можете отметить. Мы это ценим. '
-        old_data={data}
+        value={data && data.animals_not_exploited}
       />
 
       <SingleWrapper label='Ссылка на видео (youtube или vimeo)' comment=''>
         <Input
           action={handleInput}
           name='media_link'
-          old_data={data}
+          value={data && data.media_link}
           options={toursTypes}
           // multiple
         />
@@ -229,8 +266,7 @@ const Details = ({
         <TextEditor
           action={handleInput}
           name='description'
-          old_data={data}
-          options={toursTypes}
+          value={data && data.description}
           // multiple
         />
       </SingleWrapper>
@@ -240,7 +276,7 @@ const Details = ({
           action={handleInput}
           name='main_impressions'
           label=''
-          old_data={data}
+          value={data && data.main_impressions}
           rows='7'
         />
       </SingleWrapper>
@@ -249,12 +285,25 @@ const Details = ({
         <TextEditor
           action={handleInput}
           name='plan'
-          old_data={data}
-          options={toursTypes}
+          value={data && data.plan}
           // multiple
         />
       </SingleWrapper>
-      <Button active={true} action={handleButtonSubmit} />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '66%',
+        }}
+      >
+        <Button
+          color='button-primary'
+          active={true}
+          action={handleButtonBack}
+          text='Назад'
+        />
+        <Button active={true} action={handleButtonSubmit} />
+      </div>
       {/* <Button active={completed} /> */}
     </>
   )
@@ -262,6 +311,7 @@ const Details = ({
 
 const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
+  languages: state.tours.languages,
   secondary_nav: state.tourSection.secondary_nav,
 })
 
@@ -269,4 +319,6 @@ export default connect(mapStateToProps, {
   getTourTypes,
   setSecondaryNav,
   updateTour,
+  getLanguages,
+  setPropertyImage,
 })(Details)

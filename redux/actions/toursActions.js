@@ -77,6 +77,32 @@ export const updateTour = (data, id) => async dispatch => {
   }
 }
 
+export const addDay = (id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `JWT ${localStorage.getItem('access')}`,
+      'Accept': 'application/json',
+    },
+  }
+
+  const body = JSON.stringify({tour: id})
+
+  try {
+    const res = await axios.post(`${API_URL}/api/tourdays/`, body, config)
+
+    dispatch({
+      type: t.ADD_DAY_SUCCESS,
+      payload: res.data,
+    })
+    // dispatch(getTour(id))
+  } catch (err) {
+    dispatch({
+      type: t.ADD_DAY_FAIL,
+    })
+  }
+}
+
 export const updateTourWallpaper = (image, id) => async dispatch => {
   const config = {
     headers: {
@@ -84,8 +110,6 @@ export const updateTourWallpaper = (image, id) => async dispatch => {
       'Authorization': `JWT ${localStorage.getItem('access')}`,
     },
   }
-
-  console.log(image)
 
 
   let form_data = new FormData()
@@ -111,6 +135,94 @@ export const updateTourWallpaper = (image, id) => async dispatch => {
   }
 }
 
+export const setPropertyImage = (image, id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+  let form_data = new FormData()
+  form_data.append('image', image, image.name)
+  form_data.append('tour', id)
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/tourpropertyimages/`,
+      form_data,
+      config
+    )
+
+    console.log(res.data)
+
+    dispatch({
+      type: t.SET_PROPERTY_IMAGE_SUCCESS,
+      payload: res.data,
+    })
+    // dispatch(getTour(id))
+  } catch (err) {
+    dispatch({
+      type: t.SET_PROPERTY_IMAGE_FAIL,
+    })
+  }
+}
+
+export const setDayImage = (image, id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+  let form_data = new FormData()
+  form_data.append('image', image, image.name)
+  form_data.append('tour_day', id)
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/tourdayimages/`,
+      form_data,
+      config
+    )
+
+    dispatch({
+      type: t.SET_TOUR_DAY_IMAGE_SUCCESS,
+      payload: res.data,
+    })
+    // dispatch(getTour(id))
+  } catch (err) {
+    dispatch({
+      type: t.SET_TOUR_DAY_IMAGE_FAIL,
+    })
+  }
+}
+
+export const setTourImages = (image, id) => async dispatch => {
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `JWT ${localStorage.getItem('access')}`,
+    },
+  }
+  let form_data = new FormData()
+  form_data.append('image', image, image.name)
+  form_data.append('tour', id)
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/tourimages/`,
+      form_data,
+      config
+    )
+
+    dispatch({
+      type: t.SET_TOUR_IMAGE_SUCCESS,
+      payload: res.data,
+    })
+    // dispatch(getTour(id))
+  } catch (err) {
+    dispatch({
+      type: t.SET_TOUR_IMAGE_FAIL,
+    })
+  }
+}
 
 
 // export const setReview = ({phone_number, attributes, body}) => async dispatch => {
@@ -310,7 +422,6 @@ export const getCurrencies = () =>
         config
       )
 
-      console.log(res.data)
 
       dispatch({
         type: t.GET_CURRENCIES_SUCCESS,
@@ -319,6 +430,31 @@ export const getCurrencies = () =>
     } catch (err) {
       dispatch({
         type: t.GET_CURRENCIES_FAIL,
+      })
+    }
+  }
+
+export const getLanguages = () =>
+  async dispatch => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json',
+      },
+    }
+
+    try {
+      const res = await axios.get(`${API_URL}/api/languages/`, config)
+
+
+      dispatch({
+        type: t.GET_LANGUAGES_SUCCESS,
+        payload: res.data,
+      })
+    } catch (err) {
+      dispatch({
+        type: t.GET_LANGUAGES_FAIL,
       })
     }
   }

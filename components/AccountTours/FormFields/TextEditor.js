@@ -19,8 +19,10 @@ const TextEditor = ({ action, name, value }) => {
   const [data, setData] = useState('')
 
   useEffect(() => {
-    setData(value)
-  }, [])
+    if(value){
+      setData(value)
+    }
+  }, [value])
 
   const handleData = e => {
     setData(e.target.value)
@@ -29,33 +31,35 @@ const TextEditor = ({ action, name, value }) => {
 
   return editorLoaded ? (
     <CKEditor
-          editor={ClassicEditor}
-          data=''
-          config={{
-            toolbar: [
-              'bold',
-              'italic',
-              'blockQuote',
-              '|',
-              // 'link',
-              'numberedList',
-              'bulletedList',
-              '|',
-              // 'imageUpload',
-              // 'mediaEmbed',
-              // '|',
-              'undo',
-              'redo',
-            ],
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData()
-            console.log({ event, editor, data })
-          }}
-        /> )
-        : (
-          <div>Editor loading</div>
-        )
+      editor={ClassicEditor}
+      data={data}
+      value={data}
+      config={{
+        toolbar: [
+          'bold',
+          'italic',
+          'blockQuote',
+          '|',
+          // 'link',
+          'numberedList',
+          'bulletedList',
+          '|',
+          // 'imageUpload',
+          // 'mediaEmbed',
+          // '|',
+          'undo',
+          'redo',
+        ],
+      }}
+      onChange={(event, editor) => {
+        console.log(editor)
+        const data = editor.getData()
+        action(name, data)
+      }}
+    />
+  ) : (
+    <div>Editor loading</div>
+  )
 }
 
 export default TextEditor

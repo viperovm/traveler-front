@@ -12,9 +12,19 @@ import {
 } from '../../../redux/actions/tourSectionActions'
 import { updateTour } from '../../../redux/actions/toursActions'
 
-const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
+const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
+
+  useEffect(() => {
+    if(tour){
+      setData({
+        price_includes: tour.price_includes,
+        price_excludes: tour.price_excludes,
+        air_tickets: tour.air_tickets,
+      })
+    }
+  }, [tour])
 
   const handleInput = (name, value) => {
     setData({
@@ -60,8 +70,12 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
   }, [data])
 
   const handleButtonSubmit = () => {
-    // updateTour(data)
+    updateTour(data, tour.id)
     action('services')
+  }
+
+  const handleButtonBack = () => {
+    action('leader')
   }
 
    useEffect(() => {
@@ -79,7 +93,7 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
           action={handleInput}
           name='price_includes'
           label=''
-          old_data={data}
+          value={data&& data.price_includes}
           rows='7'
         />
       </SingleWrapper>
@@ -88,7 +102,7 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
           action={handleInput}
           name='price_excludes'
           label=''
-          old_data={data}
+          value={data&& data.price_excludes}
           rows='7'
         />
       </SingleWrapper>
@@ -97,12 +111,25 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
           action={handleInput}
           name='air_tickets'
           label=''
-          old_data={data}
+          value={data&& data.air_tickets}
           rows='7'
         />
       </SingleWrapper>
-      <Button active={true} action={handleButtonSubmit} />
-      {/* <Button active={completed} /> */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '66%',
+        }}
+      >
+        <Button
+          color='button-primary'
+          active={true}
+          action={handleButtonBack}
+          text='Назад'
+        />
+        <Button active={true} action={handleButtonSubmit} />
+      </div>
     </>
   )
 }

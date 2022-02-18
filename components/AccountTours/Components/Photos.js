@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from 'react'
 import SingleWrapper from '../Wrappers/SingleWrapper'
-import FileInput from '../FormFields/FileInput'
+import ObjectFileInput from '../FormFields/ObjectFileInput'
 import Button from './Button'
 
 import { connect } from 'react-redux'
 import { setSecondaryNav } from '../../../redux/actions/tourSectionActions'
-import { updateTour } from '../../../redux/actions/toursActions'
+import { updateTour, setTourImages } from '../../../redux/actions/toursActions'
 
-const Photos = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
+const Photos = ({
+  tour,
+  action,
+  secondary_nav,
+  setSecondaryNav,
+  updateTour,
+  done,
+  setTourImages,
+}) => {
   const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
 
-  const handleInput = (name, value) => {
-    setData({
-      ...data,
-      [name]: value,
-    })
+  const handleInput = (image) => {
+    setTourImages(image, tour.id)
   }
+
+  useEffect(() => {if(tour) { 
+    setData({
+      tour_images: tour.tour_images,
+    })
+  }}, [tour])
 
   useEffect(() => {
     if (data) {
@@ -55,13 +66,17 @@ const Photos = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
   }, [data])
 
   const handleButtonSubmit = () => {
-    // updateTour(data)
-    // action('details')
+    setData({
+      ...data,
+      on_moderation: true,
+    })
+    updateTour(data, tour.id)
+    done()
   }
 
-   useEffect(() => {
-     window.scrollTo(0, 0)
-   }, [])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
@@ -73,9 +88,9 @@ const Photos = ({ action, secondary_nav, setSecondaryNav, updateTour }) => {
         label='Добавить фото'
         comment='Добавьте не менее 7 фотографий, первая из них станет обложкой тура на предпросмотре. НЕ используйте стоковый контент и материалы других фотографов без их разрешения, так как это является нарушением авторского права и может привести к судебным разбирательствам и штрафам. Подробнее о том, где искать и как правильно использовать фото и видео для своих туров смотрите в статье. '
       >
-        <FileInput action={handleInput} name='tour_images' type='file' />
+        <ObjectFileInput action={handleInput} name='tour_images' type='file' value={data && data.tour_images} />
       </SingleWrapper>
-      <Button active={true} action={handleButtonSubmit} />
+      <Button active={true} action={handleButtonSubmit} text='На модерацию' />
     </>
   )
 }
@@ -88,4 +103,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   setSecondaryNav,
   updateTour,
+  setTourImages,
 })(Photos)

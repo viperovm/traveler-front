@@ -5,17 +5,28 @@ import FileInput from '../FormFields/FileInput'
 import TextEditor from '../FormFields/TextEditor'
 import Button from './Button'
 
+import { addDay } from '../../../redux/actions/toursActions'
+import { connect } from 'react-redux'
 
-const Day = ({ id, action }) => {
 
+const Day = ({ id, action, current_tour, addDay }) => {
   const [data, setData] = useState({})
 
-  console.log('day data: ', data)
-    
+  
+  // useEffect(() => {
+  //   if (day) {
+  //     setData({
+  //       name: day.name,
+  //       location: day.location,
+  //       description: day.description,
+  //     })
+  //   }
+  // }, [day])
+
   const handleInput = (name, value) => {
     setData({
       ...data,
-      [name]: value
+      [name]: value,
     })
   }
 
@@ -30,9 +41,9 @@ const Day = ({ id, action }) => {
     action(data, id)
   }, [data])
 
-   useEffect(() => {
-     window.scrollTo(0, 0)
-   }, [])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
@@ -56,7 +67,8 @@ const Day = ({ id, action }) => {
       >
         <Input
           action={handleInput}
-          name='day'
+          name='name'
+          value={data && data.name}
           // options={toursTypes}
           // multiple
         />
@@ -65,6 +77,7 @@ const Day = ({ id, action }) => {
         <Input
           action={handleInput}
           name='location'
+          value={data && data.location}
           // options={toursTypes}
           // multiple
         />
@@ -72,7 +85,8 @@ const Day = ({ id, action }) => {
       <SingleWrapper label='Описание дня' comment=''>
         <TextEditor
           action={handleInput}
-          name='day_description'
+          name='description'
+          value={data && data.description}
           // options={toursTypes}
           // multiple
         />
@@ -90,17 +104,14 @@ const Day = ({ id, action }) => {
           // multiple
         />
       </SingleWrapper>
-      <SingleWrapper label='Карта маршрута' comment=''>
-        <FileInput
-          action={handleInput}
-          name='day_route'
-          type='file'
-          // options={toursTypes}
-          // multiple
-        />
-      </SingleWrapper>
     </>
   )
 }
 
-export default Day
+const mapStateToProps = state => ({
+  
+  current_tour: state.tours.current_tour,
+  
+})
+
+export default connect(mapStateToProps, { addDay })(Day)
