@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import SingleWrapper from '../Wrappers/SingleWrapper'
-import DoubleWrapper from '../Wrappers/DoubleWrapper'
-import Input from '../FormFields/Input'
-import RadioInput from '../FormFields/RadioInput'
-import TextEditor from '../FormFields/TextEditor'
-import TextArea from '../FormFields/TextArea'
-import SelectInput from '../FormFields/SelectInput'
-import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
 
 import { connect } from 'react-redux'
 import { setTourName } from '../../../redux/actions/tourSectionActions'
 import {
   getTourTypes,
-  getRegions,
-  getCountries,
-  getRussianRegions,
-  getCities,
   updateTour,
   addDay,
 } from '../../../redux/actions/toursActions'
@@ -24,18 +12,16 @@ import {
   setActiveSections,
   setSecondaryNav,
 } from '../../../redux/actions/tourSectionActions'
-import Modal from './Modal'
-import TrippleWrapper from '../Wrappers/TrippleWrapper'
+
 import Day from './Day'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import Accomodation from './Accomodation'
 
-
-function TabPanel({ children, value, index,  }) {
-
+function TabPanel({ children, value, index }) {
   return (
     <div
       role='tabpanel'
@@ -59,10 +45,9 @@ function a11yProps(index) {
   }
 }
 
-const Days = ({
+const Accomodations = ({
   tour,
   action,
-  getRegions,
   secondary_nav,
   setSecondaryNav,
   updateTour,
@@ -90,8 +75,6 @@ const Days = ({
     }
     setDays(arr)
   }, [tour])
-
-  
 
   console.log('days data: ', data)
   console.log(tour.id)
@@ -155,15 +138,6 @@ const Days = ({
     addDay(tour.id)
   }
 
-  const handleButtonSubmit = () => {
-    updateTour(data, tour.id)
-    action('leader')
-  }
-
-  const handleButtonBack = () => {
-    action('details')
-  }
-
   return (
     <>
       {data.length > 1 && (
@@ -177,39 +151,24 @@ const Days = ({
               scrollButtons='auto'
             >
               {days.map((item, index) => (
-                <Tab key={index} label={`День ${item}`} {...a11yProps(index)} />
+                <Tab key={index} label={`Вариант размещения ${item}`} {...a11yProps(index)} />
               ))}
             </Tabs>
           </Box>
           {data.map((item, index) => (
             <TabPanel key={index} value={value} index={index}>
-              <Day id={index + 1} action={handleInput} day={item} />
+              <Accomodation id={index + 1} action={handleInput} day={item} />
             </TabPanel>
           ))}
         </Box>
       )}
-      {data.length === 1 && <Day id={data[0]} action={handleInput} />}
+      {data.length === 1 && <Accomodation id={data[0]} action={handleInput} />}
       <Button
         active={true}
         action={handleDayAdd}
         color='button-primary'
-        text='Добавить день'
+        text='Добавить вариант'
       />
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '66%',
-        }}
-      >
-        <Button
-          color='button-primary'
-          active={true}
-          action={handleButtonBack}
-          text='Назад'
-        />
-        <Button active={true} action={handleButtonSubmit} />
-      </div>
     </>
   )
 }
@@ -225,13 +184,8 @@ const mapStateToProps = state => ({
 })
 
 export default connect(mapStateToProps, {
-  setTourName,
   getTourTypes,
-  getRegions,
-  getCountries,
-  getRussianRegions,
-  getCities,
   setSecondaryNav,
   updateTour,
   addDay,
-})(Days)
+})(Accomodations)

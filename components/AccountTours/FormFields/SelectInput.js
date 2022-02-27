@@ -39,18 +39,14 @@ const SelectInput = ({ action, name, label, val, options, multiple }) => {
       let arr = []
       if (Array.isArray(val)) {
         arr = val
-        console.log(arr)
       } else {
         arr.push(val)
       }
        setData(arr)
-      console.log(Array.isArray(val))
-      console.log(data)
     }
   }, [val])
 
   const getObject = arr => {
-    console.log(arr)
     let obj = {}
     for (let i = 0; i < arr.length; i++) {
       obj = {
@@ -58,7 +54,6 @@ const SelectInput = ({ action, name, label, val, options, multiple }) => {
         [arr[i].id]: arr[i].name,
       }
     }
-    console.log(obj)
     setNewOptions(obj)
   }
 

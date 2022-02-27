@@ -10,7 +10,6 @@ const FileInput = ({ action, name, value, max }) => {
 
   const inputFileRef = useRef(null)
 
-  console.log(value)
 
   useEffect(() => {
     if (value) {
@@ -47,23 +46,6 @@ const FileInput = ({ action, name, value, max }) => {
       setLoading(false)
     }
   }, [preview, loading])
-
-  // useEffect(() => {
-  //   if (value) {
-  //     setData(value)
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   action(data)
-  // }, [data])
-
-  // const handleData = e => {
-  //   setData(e.target.value)
-  // }
-  // const handleSend = () => {
-  //   action(name, data)
-  // }
 
   return (
     <>

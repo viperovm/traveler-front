@@ -19,19 +19,13 @@ import Photos from '../Components/Photos'
 
 const AddTour = ({
   getTourTypes,
-  toursTypes,
   setPage,
   status,
   currentSection,
   setCurrentSection,
-  current_tour,
   completed,
 }) => {
   // const [currentSection, setCurrentSection] = useState('common')
-  const [tourId, setTourId] = useState(null)
-
-  console.log(current_tour)
-
   useState(() => {
     if (status === 'customers') {
       Router.push('/does-not-exist')
@@ -47,54 +41,41 @@ const AddTour = ({
     completed()
   }
 
-  // const [sectionStatus, sectionSetStatus] = useState({
-  //   common: false,
-  //   prices: false,
-  //   options: false,
-  //   details: false,
-  //   day: false,
-  //   leader: false,
-  //   conditions: false,
-  //   services: false,
-  //   important: false,
-  //   photos: false,
-  // })
-
   return (
     <>
       <div className='common-section'>
         {currentSection === 'common' && (
-          <Common action={setCurrentSection} tour={current_tour} />
+          <Common action={setCurrentSection} />
         )}
         {currentSection === 'prices' && (
-          <Prices action={setCurrentSection} tour={current_tour} />
+          <Prices action={setCurrentSection} />
         )}
         {currentSection === 'options' && (
-          <Cancellation action={setCurrentSection} tour={current_tour} />
+          <Cancellation action={setCurrentSection} />
         )}
         {currentSection === 'details' && (
-          <Details action={setCurrentSection} tour={current_tour} />
+          <Details action={setCurrentSection} />
         )}
         {currentSection === 'day' && (
-          <Days action={setCurrentSection} tour={current_tour} />
+          <Days action={setCurrentSection} />
         )}
         {currentSection === 'leader' && (
-          <Leader action={setCurrentSection} tour={current_tour} />
+          <Leader action={setCurrentSection} />
         )}
         {currentSection === 'conditions' && (
-          <Conditions action={setCurrentSection} tour={current_tour} />
+          <Conditions action={setCurrentSection} />
         )}
         {currentSection === 'services' && (
-          <ExtraServices action={setCurrentSection} tour={current_tour} />
+          <ExtraServices action={setCurrentSection} />
         )}
         {currentSection === 'important' && (
-          <Important action={setCurrentSection} tour={current_tour} />
+          <Important action={setCurrentSection} />
         )}
         {currentSection === 'photos' && (
           <Photos
             done={handleComplete}
             action={setCurrentSection}
-            tour={current_tour}
+          
           />
         )}
       </div>
@@ -103,8 +84,6 @@ const AddTour = ({
 }
 
 const mapStateToProps = state => ({
-  toursTypes: state.tours.tour_types,
-  current_tour: state.tours.current_tour,
   status: state.auth.status,
   currentSection: state.tourSection.current_section,
 })

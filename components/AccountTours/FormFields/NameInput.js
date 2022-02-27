@@ -1,16 +1,10 @@
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 
-const Input = ({
-  action,
-  name,
-  type = 'text',
-  value
-}) => {
+const NameInput = ({ action, action2, name, type = 'text', value }) => {
   const [data, setData] = useState('')
 
-
   useEffect(() => {
-    if(value){
+    if (value) {
       setData(value)
     }
   })
@@ -18,6 +12,10 @@ const Input = ({
   const handleData = e => {
     setData(e.target.value)
     action(name, e.target.value)
+  }
+
+  const handleDataBlur = () => {
+    action2()
   }
   // const handleSend = () => {
   //   action(name, data)
@@ -30,9 +28,10 @@ const Input = ({
         value={data}
         type={type}
         onChange={handleData}
+        onBlur={handleDataBlur}
       />
     </>
   )
 }
 
-export default Input
+export default NameInput

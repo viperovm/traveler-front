@@ -7,84 +7,35 @@ import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
 
 import { connect } from 'react-redux'
-import { setTourName } from '../../../redux/actions/tourSectionActions'
 import {
-  getTourTypes,
-  getRegions,
-  getCountries,
-  getRussianRegions,
-  getCities,
   updateTour,
   getCurrencies,
 } from '../../../redux/actions/toursActions'
+import { update_tour } from '../../../redux/actions/currentTourActions'
 import { setSecondaryNav } from '../../../redux/actions/tourSectionActions'
-import TrippleWrapper from '../Wrappers/TrippleWrapper'
 
 const Prices = ({
   tour,
   action,
-  toursTypes,
   secondary_nav,
   setSecondaryNav,
   updateTour,
   getCurrencies,
   currencies,
+  update_tour,
 }) => {
-  const [data, setData] = useState()
+  // const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
+  const [checkBox, setCheckBox] = useState(true)
+  const [input, setInput] = useState(true)
 
   const handleInput = (name, value) => {
-    setData({
-      ...data,
-      [name]: value,
-    })
-  }
-
-  const handlePrcInput = (name, value) => {
-
-    if(value === '%') {
-      setData({
-        ...data,
-        [name]: true,
-      })
-    } else {
-      setData({
-        ...data,
-        [name]: false,
-      })
-    }
+    update_tour(name, value)
   }
 
   useEffect(() => {
     if (tour) {
-      setData({
-        instant_booking: tour.instant_booking,
-        currency: tour.currency,
-        start_date: tour.start_date,
-        finish_date: tour.finish_date,
-        week_recurrent: tour.week_recurrent,
-        month_recurrent: tour.month_recurrent,
-        vacants_number: tour.vacants_number,
-        members_number: tour.members_number,
-        price: tour.price,
-        price_comment: tour.price_comment,
-        prepay_amount: tour.prepay_amount,
-        prepay_in_prc: tour.prepay_in_prc,
-        prepay_currency: tour.prepay_currency,
-        prepay_starts: tour.prepay_starts,
-        prepay_finish: tour.prepay_finish,
-        postpay_on_start_day: tour.postpay_on_start_day,
-        postpay_days_before_start: tour.postpay_days_before_start,
-        is_guaranteed: tour.is_guaranteed,
-        flight_included: tour.flight_included,
-        scouting: tour.scouting,
-      })
-    }
-  }, [tour])
-
-  useEffect(() => {
-    if (data) {
-      if (data.currency && data.start_date && data.finish_date && data.price) {
+      if (tour.currency && tour.start_date && tour.finish_date && tour.price) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
@@ -116,14 +67,14 @@ const Prices = ({
         )
       }
     }
-  }, [data])
+  }, [tour])
 
   const handleButtonBack = () => {
-    updateTour(data, tour.id)
+    // updateTour(data, tour.id)
     action('common')
   }
   const handleButtonSubmit = () => {
-    updateTour(data, tour.id)
+    updateTour(tour, tour.id)
     action('options')
   }
 
@@ -142,7 +93,7 @@ const Prices = ({
         name='instant_booking'
         label='Возможно моментальное бронирование'
         comment='Если вы выбираете моментальное бронирование - оплата с клиента будет списываться в момент бронирования без вашего подтверждения. '
-        value={data && data.instant_booking}
+        value={tour && tour.instant_booking}
       />
 
       <SingleWrapper label='Валюта тура' comment=''>
@@ -150,7 +101,7 @@ const Prices = ({
           action={handleInput}
           name='currency'
           label='Валюта тура'
-          val={data && data.currency}
+          val={tour && tour.currency}
           options={currencies}
         />
       </SingleWrapper>
@@ -160,7 +111,7 @@ const Prices = ({
           action={handleInput}
           name='start_date'
           label='Дата начала тура'
-          value={data && data.start_date}
+          value={tour && tour.start_date}
           type='date'
           // multiple
         />
@@ -168,32 +119,32 @@ const Prices = ({
           action={handleInput}
           name='finish_date'
           label='Дата завершения тура'
-          value={data && data.finish_date}
+          value={tour && tour.finish_date}
           type='date'
 
           // multiple
         />
       </DoubleWrapper>
-      <CheckboxInput
+      {/* <CheckboxInput
         action={handleInput}
         name='week_recurrent'
         label='Повторять каждую неделю'
         comment=''
-        value={data && data.week_recurrent}
+        value={tour && tour.week_recurrent}
       />
       <CheckboxInput
         action={handleInput}
         name='month_recurrent'
         label='Повторять каждый месяц'
         comment=''
-        value={data && data.month_recurrent}
-      />
+        value={tour && tour.month_recurrent}
+      /> */}
       <DoubleWrapper ratio='1-2'>
         <Input
           action={handleInput}
           name='vacants_number'
           label='Осталось мест'
-          value={data && data.vacants_number}
+          value={tour && tour.vacants_number}
           // type='date'
           // multiple
         />
@@ -201,7 +152,7 @@ const Prices = ({
           action={handleInput}
           name='members_number'
           label='Всего мест'
-          value={data && data.members_number}
+          value={tour && tour.members_number}
           // type='date'
 
           // multiple
@@ -213,7 +164,7 @@ const Prices = ({
           action={handleInput}
           name='price'
           label='Стоимость'
-          value={data && data.price}
+          value={tour && tour.price}
         />
       </SingleWrapper>
       <SingleWrapper label='Комментарий к стоимости' comment=''>
@@ -221,75 +172,93 @@ const Prices = ({
           action={handleInput}
           name='price_comment'
           label='Комментарий к стоимости'
-          value={data && data.price_comment}
+          value={tour && tour.price_comment}
         />
       </SingleWrapper>
 
-      <TrippleWrapper ratio='1-2'>
+      <DoubleWrapper ratio='2-3'>
         <Input
           action={handleInput}
           name='prepay_amount'
           label='Предоплата'
-          value={data && data.prepay_amount}
+          value={tour && tour.prepay_amount}
           // type='date'
           // multiple
         />
         <SelectInput
-          action={handlePrcInput}
+          action={handleInput}
           name='prepay_in_prc'
           label='Номинал'
-          value={data && data.prepay_in_prc}
+          value={tour && tour.prepay_in_prc}
           options={[
             { id: 0, name: 'Число' },
             { id: 1, name: '%' },
           ]}
           // multiple
         />
-        <SelectInput
+      </DoubleWrapper>
+
+      <DoubleWrapper ratio='2-3'>
+        <Input
           action={handleInput}
-          name='prepay_currency'
-          label='Валюта'
-          value={data && data.prepay_currency}
-          options={currencies}
+          name='discount'
+          label='Размер скидки'
+          value={tour && tour.discount}
+          // type='date'
           // multiple
         />
-      </TrippleWrapper>
+        <SelectInput
+          action={handleInput}
+          name='discount_in_prc'
+          label='Номинал'
+          value={tour && tour.discount_in_prc}
+          options={[
+            { id: 0, name: 'Число' },
+            { id: 1, name: '%' },
+          ]}
+          // multiple
+        />
+      </DoubleWrapper>
 
       <DoubleWrapper ratio='1-2'>
         <Input
           action={handleInput}
-          name='prepay_starts'
-          label='Действует с:'
-          value={data && data.prepay_starts}
+          name='discount_starts'
+          label='Скидка действует с:'
+          value={tour && tour.discount_starts}
           type='date'
           // multiple
         />
         <Input
           action={handleInput}
-          name='prepay_finish'
-          label='Действует до:'
-          value={data && data.prepay_finish}
+          name='discount_finish'
+          label='Скидка действует до:'
+          value={tour && tour.discount_finish}
           type='date'
 
           // multiple
         />
       </DoubleWrapper>
-      <CheckboxInput
-        action={handleInput}
-        name='postpay_on_start_day'
-        label='Постоплата в день старта'
-        comment=''
-        value={data && data.postpay_on_start_day}
-      />
-
-      <SingleWrapper label='Вносится за дней до старта ' comment=''>
-        <Input
+      {tour && !tour.postpay_days_before_start && (
+        <CheckboxInput
           action={handleInput}
-          name='postpay_days_before_start'
-          label='Вносится за дней до старта '
-          value={data && data.postpay_days_before_start}
+          name='postpay_on_start_day'
+          label='Постоплата в день старта'
+          comment=''
+          value={tour && tour.postpay_on_start_day}
         />
-      </SingleWrapper>
+      )}
+
+      {tour && !tour.postpay_on_start_day && (
+        <SingleWrapper label='Вносится за дней до старта ' comment=''>
+          <Input
+            action={handleInput}
+            name='postpay_days_before_start'
+            label='Вносится за дней до старта'
+            value={tour && tour.postpay_days_before_start}
+          />
+        </SingleWrapper>
+      )}
 
       <CheckboxInput
         action={handleInput}
@@ -298,24 +267,30 @@ const Prices = ({
         comment='
 “Тур гарантирован“ означает, что он точно состоится и дополнительного подтверждения с вашей стороны не требуется. Отмена гарантированного тура после получения предоплаты влечет начисление штрафа (см. раздел VI. Изменение бронирования, отмена и возврат)
 '
-        value={data && data.is_guaranteed}
+        value={tour && tour.is_guaranteed}
       />
       <CheckboxInput
         action={handleInput}
         name='flight_included'
         label='В стоимость включен перелёт'
         comment=''
-        value={data && data.flight_included}
+        value={tour && tour.flight_included}
       />
       <CheckboxInput
         action={handleInput}
         name='scouting'
         label='Разведка'
         comment=''
-        value={data && data.scouting}
+        value={tour && tour.scouting}
       />
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '66%'}}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '66%',
+        }}
+      >
         <Button
           color='button-primary'
           active={true}
@@ -331,23 +306,14 @@ const Prices = ({
 }
 
 const mapStateToProps = state => ({
-  toursTypes: state.tours.tour_types,
-  regions: state.tours.regions,
-  countries: state.tours.countries,
-  russianRegions: state.tours.russian_regions,
-  cities: state.tours.cities,
   secondary_nav: state.tourSection.secondary_nav,
   currencies: state.tours.currencies,
+  tour: state.local_tour.tour,
 })
 
 export default connect(mapStateToProps, {
-  setTourName,
-  getTourTypes,
-  getRegions,
-  getCountries,
-  getRussianRegions,
-  getCities,
   setSecondaryNav,
   updateTour,
   getCurrencies,
+  update_tour,
 })(Prices)

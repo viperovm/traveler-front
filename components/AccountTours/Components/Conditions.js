@@ -136,6 +136,7 @@ const Conditions = ({ action, secondary_nav, setSecondaryNav, updateTour, tour }
 
 const mapStateToProps = state => ({
   secondary_nav: state.tourSection.secondary_nav,
+  tour: state.local_tour.tour,
 })
 
 export default connect(mapStateToProps, {

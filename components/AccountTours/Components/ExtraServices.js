@@ -77,28 +77,16 @@ const ExtraServices = ({
           // multiple
         />
       </SingleWrapper>
-
-      <DoubleWrapper
-        ratio='2-3'
-        comment='Добавляйте доплату за одноместное размещение и другие услуги. Информация будет предложена клиентам перед оплатой. '
-      >
-        <Input
+      <SingleWrapper label='Стоимость услуги (необязательно)' comment=''>
+         <Input
           action={handleInput}
           name='extra_service_price'
-          label='Услуги (необязательно)'
+          label=''
           old_data={data}
           // type=''
           // multiple
         />
-        <SelectInput
-          action={handleInput}
-          name='extra_currency'
-          label='Валюта'
-          old_data={data}
-          options={currencies}
-          // multiple
-        />
-      </DoubleWrapper>
+      </SingleWrapper>
 
       <Button
         active={true}
@@ -107,7 +95,7 @@ const ExtraServices = ({
         text='Добавить услугу'
       />
 
-      <SingleWrapper label='Комментарий' comment=''>
+      {/* <SingleWrapper label='Комментарий' comment=''>
         <TextArea
           action={handleInput}
           name='extra_comment'
@@ -115,7 +103,7 @@ const ExtraServices = ({
           old_data={data}
           rows='7'
         />
-      </SingleWrapper>
+      </SingleWrapper> */}
 
       <div
         style={{
@@ -140,6 +128,7 @@ const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
   secondary_nav: state.tourSection.secondary_nav,
   currencies: state.tours.currencies,
+  tour: state.local_tour.tour,
 })
 
 export default connect(mapStateToProps, {

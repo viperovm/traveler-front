@@ -3043,7 +3043,6 @@ li.li-border-none:last-child {
   cursor: pointer;
 }
 
-
 .add-tour-button.button-primary {
   background-color: #2aa2d6;
   cursor: pointer;
@@ -3306,5 +3305,136 @@ input[type='file'] {
 }
 
 .MuiButtonBase-root {
-  text-transform: none!important;
+  text-transform: none !important;
 }
+
+.tours-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tours-wrapper-nn {
+  justify-content: space-between;
+}
+
+.tour-card {
+  /* min-width: 31%; */
+  width: calc(33.33% - 14px);
+  height: 360px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 21px;
+}
+
+.tour-card:nth-child(3n+1),
+.tour-card:nth-child(3n+2) {
+  margin-right: 21px;
+}
+
+.tour-image {
+  height: 200px;
+  width: 100%;
+  position: relative;
+  border-radius: 8px 8px 0 0;
+}
+
+.tour-label {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  padding: 8px 10px;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 750;
+  font-size: 10px;
+  border-radius: 4px;
+}
+
+.tour-label-active {
+  background-color: #84bb59;
+}
+.tour-label-moderation {
+  background-color: #ef8f21;
+}
+.tour-label-draft {
+  background-color: #303030;
+}
+
+.tour-data {
+  padding: 20px;
+}
+
+.tour-header {
+  width: 100%;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.tour-region {
+  font-weight: 750;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 15px;
+}
+
+.tour-name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+}
+
+.tour-footer {
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tour-footer-dates {
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.tour-footer-price {
+  font-family: 'AvenirNextCyr-Regular', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+  margin-top: 3px;
+}
+
+.tour-footer-sold {
+  justify-content: end;
+  display: flex;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.tour-footer-sold img {
+  margin-left: 6px;
+}
+
+.tour-footer-watched {
+  justify-content: end;
+  display: flex;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 6px;
+}
+
+.tour-footer-value {
+  margin-right: 6px;
+}
+
+/* .tour-card:not(:nth-child(3n)) {
+  margin-right: 20px;
+} */
+
+/* .tour-card:nth-child(3n) {
+  break-after: always;
+} */

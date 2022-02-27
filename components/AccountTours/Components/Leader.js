@@ -260,6 +260,7 @@ const mapStateToProps = state => ({
   russianRegions: state.tours.russian_regions,
   cities: state.tours.cities,
   secondary_nav: state.tourSection.secondary_nav,
+  tour: state.local_tour.tour,
 })
 
 export default connect(mapStateToProps, {

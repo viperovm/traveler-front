@@ -10,6 +10,8 @@ import SelectInput from '../FormFields/SelectInput'
 import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
 
+import CircularProgress from '@mui/material/CircularProgress'
+
 import { connect } from 'react-redux'
 import { setTourName } from '../../../redux/actions/tourSectionActions'
 import {
@@ -17,10 +19,45 @@ import {
   updateTour,
   getLanguages,
   setPropertyImage,
+  addActivity,
 } from '../../../redux/actions/toursActions'
 import {
   setSecondaryNav,
 } from '../../../redux/actions/tourSectionActions'
+
+import { update_tour } from '../../../redux/actions/currentTourActions'
+// import Activities from './Activities'
+import Activity from './Activity'
+
+
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+
+function TabPanel({ children, value, index }) {
+  return (
+    <div
+      role='tabpanel'
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  )
+}
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  }
+}
 
 const Details = ({
   tour,
@@ -32,16 +69,71 @@ const Details = ({
   getLanguages,
   languages,
   setPropertyImage,
+  update_tour,
+  addActivity,
 }) => {
-  const [data, setData] = useState()
+  // const [tour, settour] = useState()
+
+  const [data, setData] = useState([])
+
   const [completed, setCompleted] = useState(false)
 
-  const handleInput = (name, value) => {
-    setData({
-      ...data,
-      [name]: value,
-    })
+  const [value, setValue] = useState(0)
+  const [loading, setLoading] = useState(false)
+  const [activities, setActivities] = useState([1])
+
+  const handleActivityInput = (value, id) => {
+    let arr = data.filter(item => item.id !== id)
+    arr.push(value)
+    setData(arr)
   }
+
+  useEffect(() => {
+    if (tour && tour.plan && tour.plan.length === 0) {
+      addActivity(tour.id)
+      setLoading(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (tour && tour.plan) {
+      setData(tour.plan)
+      setLoading(false)
+    }
+    if (tour && tour.plan.length > 1) {
+      let arr = []
+      for (let i = 1; i <= tour.plan.length; i++) {
+        arr.push(i)
+      }
+      setActivities(arr)
+    }
+    if (tour && tour.plan.length === 1) {
+      setActivities([1])
+    }
+  }, [tour])
+
+  const handleDayAdd = () => {
+    setLoading(true)
+    addActivity(tour.id)
+  }
+
+
+  const handleTabChange = (event, newValue) => {
+    setValue(newValue)
+  }
+
+  const handleInput = (name, value) => {
+    update_tour(name, value)
+  }
+
+  useEffect(() => {
+    if (tour && tour.plan && tour.plan.length === 0) {
+      addActivity(tour.id)
+      setLoading(true)
+    } else if (tour && tour.plan && tour.plan.length !== 0) {
+      setLoading(false)
+    }
+  }, [tour])
 
   useEffect(() => {
     getLanguages()
@@ -49,34 +141,11 @@ const Details = ({
 
   useEffect(() => {
     if (tour) {
-      setData({
-        languages: tour.languages,
-        difficulty_level: tour.difficulty_level,
-        difficulty_description: tour.difficulty_description,
-        comfort_level: tour.comfort_level,
-        tour_property_types: tour.tour_property_types,
-        accomodation: tour.accomodation,
-        hotel_name: tour.hotel_name,
-        tour_property_images: tour.tour_property_images,
-        age_starts: tour.age_starts,
-        age_ends: tour.age_ends,
-        babies_alowed: tour.babies_alowed,
-        animals_not_exploited: tour.animals_not_exploited,
-        media_link: tour.media_link,
-        description: tour.description,
-        main_impressions: tour.main_impressions,
-        plan: tour.plan,
-      })
-    }
-  }, [tour])
-
-  useEffect(() => {
-    if (data) {
       if (
-        data.languages &&
-        data.description &&
-        data.main_impressions &&
-        data.plan
+        tour.languages &&
+        tour.description &&
+        tour.main_impressions &&
+        tour.plan
       ) {
         setCompleted(true)
         let arr = secondary_nav
@@ -109,14 +178,14 @@ const Details = ({
         )
       }
     }
-  }, [data])
+  }, [tour])
 
-  const handleImageLoad = (image) => {
+  const handleImageLoad = image => {
     setPropertyImage(image, tour.id)
   }
 
   const handleButtonSubmit = () => {
-    updateTour(data, tour.id)
+    updateTour(tour, tour.id)
     action('day')
   }
 
@@ -142,7 +211,7 @@ const Details = ({
           action={handleInput}
           name='languages'
           label='Валюта тура'
-          val={data && data.languages}
+          val={tour && tour.languages}
           options={languages}
         />
       </SingleWrapper>
@@ -150,7 +219,7 @@ const Details = ({
         action={handleInput}
         name='difficulty_level'
         label='Укажите сложность программы'
-        value={data && data.difficulty_level}
+        value={tour && tour.difficulty_level}
         comment='Уровень активности должен соответствовать нагрузкам, которые ожидаются в путешествии. Градацию уровней активности можно посмотреть здесь'
       />
       <SingleWrapper
@@ -161,7 +230,7 @@ const Details = ({
           action={handleInput}
           name='difficulty_description'
           label=''
-          value={data && data.difficulty_description}
+          value={tour && tour.difficulty_description}
           rows='7'
         />
       </SingleWrapper>
@@ -169,15 +238,19 @@ const Details = ({
         action={handleInput}
         name='comfort_level'
         label='Как вы оцениваете уровень комфорта в путешествии?'
-        value={data && data.comfort_level}
+        value={tour && tour.comfort_level}
         comment='Комфорт - один из главных критериев выбора путешествия. Градацию уровней комфорта можно посмотреть здесь'
       />
+      {/* <div className='my-tours-section-heading'>
+        <h4 style={{ marginBottom: 10 }}>Размещение</h4>
+      </div> */}
+
       <SingleWrapper label='Где планируется проживание' comment=''>
         <SelectInput
           action={handleInput}
           name='tour_property_types'
           label='Где планируется проживание'
-          value={data && data.tour_property_types}
+          value={tour && tour.tour_property_types}
           options={toursTypes}
           // multiple
         />
@@ -187,7 +260,7 @@ const Details = ({
           action={handleInput}
           name='accomodation'
           label='Размещение'
-          value={data && data.accomodation}
+          value={tour && tour.accomodation}
           options={toursTypes}
           // multiple
         />
@@ -199,7 +272,7 @@ const Details = ({
         <Input
           action={handleInput}
           name='hotel_name'
-          value={data && data.hotel_name}
+          value={tour && tour.hotel_name}
           options={toursTypes}
           // multiple
         />
@@ -211,18 +284,19 @@ const Details = ({
         <ObjectFileInput
           action={handleImageLoad}
           name='tour_property_images'
-          value={data && data.tour_property_images}
+          value={tour && tour.tour_property_images}
           type='file'
           // multiple
         />
       </SingleWrapper>
+      {/* <Accomodations /> */}
 
       <DoubleWrapper ratio='1-2'>
         <Input
           action={handleInput}
           name='age_starts'
           label='Возраст участников от:'
-          value={data && data.age_starts}
+          value={tour && tour.age_starts}
           // type=''
           // multiple
         />
@@ -230,7 +304,7 @@ const Details = ({
           action={handleInput}
           name='age_ends'
           label='Возраст участников до:'
-          value={data && data.age_ends}
+          value={tour && tour.age_ends}
           // type='date'
 
           // multiple
@@ -242,21 +316,21 @@ const Details = ({
         name='babies_alowed'
         label='Возможно участие с маленькими детьми'
         comment=''
-        value={data && data.babies_alowed}
+        value={tour && tour.babies_alowed}
       />
       <CheckboxInput
         action={handleInput}
         name='animals_not_exploited'
         label='В программе не эксплуатируются животные'
         comment='Если в вашей поездке не используется труд животных - можете отметить. Мы это ценим. '
-        value={data && data.animals_not_exploited}
+        value={tour && tour.animals_not_exploited}
       />
 
       <SingleWrapper label='Ссылка на видео (youtube или vimeo)' comment=''>
         <Input
           action={handleInput}
           name='media_link'
-          value={data && data.media_link}
+          value={tour && tour.media_link}
           options={toursTypes}
           // multiple
         />
@@ -266,7 +340,7 @@ const Details = ({
         <TextEditor
           action={handleInput}
           name='description'
-          value={data && data.description}
+          value={tour && tour.description}
           // multiple
         />
       </SingleWrapper>
@@ -276,19 +350,57 @@ const Details = ({
           action={handleInput}
           name='main_impressions'
           label=''
-          value={data && data.main_impressions}
+          value={tour && tour.main_impressions}
           rows='7'
         />
       </SingleWrapper>
 
-      <SingleWrapper label='Чем мы займемся в туре' comment=''>
-        <TextEditor
-          action={handleInput}
-          name='plan'
-          value={data && data.plan}
-          // multiple
-        />
-      </SingleWrapper>
+      <div className='my-tours-section-heading'>
+        <h4 style={{ marginBottom: 10 }}>Активности во время тура</h4>
+      </div>
+
+      {!loading && data.length > 1 && (
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs
+              value={value}
+              onChange={handleTabChange}
+              aria-label='basic tabs example'
+              variant='scrollable'
+              scrollButtons='auto'
+            >
+              {activities.map((item, index) => (
+                <Tab key={index} label={`День ${item}`} {...a11yProps(index)} />
+              ))}
+            </Tabs>
+          </Box>
+          {data.map((item, index) => (
+            <TabPanel key={index} value={value} index={index}>
+              <Activity
+                id={index + 1}
+                action={handleActivityInput}
+                day={item}
+              />
+            </TabPanel>
+          ))}
+        </Box>
+      )}
+      {data.length === 1 && (
+        <Activity id={data[0]} action={handleActivityInput} />
+      )}
+      {loading && (
+        <div className='fake-file-input loader-spinner'>
+          <Box sx={{ display: 'flex' }}>
+            <CircularProgress />
+          </Box>
+        </div>
+      )}
+      <Button
+        active={true}
+        action={handleDayAdd}
+        color='button-primary'
+        text='Добавить активность'
+      />
       <div
         style={{
           display: 'flex',
@@ -313,6 +425,7 @@ const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
   languages: state.tours.languages,
   secondary_nav: state.tourSection.secondary_nav,
+  tour: state.local_tour.tour,
 })
 
 export default connect(mapStateToProps, {
@@ -321,4 +434,6 @@ export default connect(mapStateToProps, {
   updateTour,
   getLanguages,
   setPropertyImage,
+  update_tour,
+  addActivity,
 })(Details)

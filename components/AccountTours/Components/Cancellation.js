@@ -8,6 +8,7 @@ import {
   setSecondaryNav,
 } from '../../../redux/actions/tourSectionActions'
 import { updateTour } from '../../../redux/actions/toursActions'
+import { update_tour } from '../../../redux/actions/currentTourActions'
 
 const Cancellation = ({
   tour,
@@ -15,31 +16,18 @@ const Cancellation = ({
   secondary_nav,
   setSecondaryNav,
   updateTour,
+  update_tour,
 }) => {
-  const [data, setData] = useState()
+  // const [data, setData] = useState()
   const [completed, setCompleted] = useState(false)
 
   const handleInput = (name, value) => {
-    setData({
-      ...data,
-      [name]: value,
-    })
+    update_tour(name, value)
   }
 
   useEffect(() => {
     if (tour) {
-      setData({
-        ...data,
-        cancellation_terms: tour.cancellation_terms,
-      })
-    }
-  }, [tour])
-
-  console.log(data)
-
-  useEffect(() => {
-    if (data) {
-      if (data.cancellation_terms) {
+      if (tour.cancellation_terms) {
         setCompleted(true)
         let arr = secondary_nav
         setSecondaryNav(
@@ -71,10 +59,10 @@ const Cancellation = ({
         )
       }
     }
-  }, [data])
+  }, [tour])
 
   const handleButtonSubmit = () => {
-    updateTour(data, tour.id)
+    updateTour(tour, tour.id)
     action('details')
   }
 
@@ -82,9 +70,9 @@ const Cancellation = ({
     action('prices')
   }
 
-   useEffect(() => {
-     window.scrollTo(0, 0)
-   }, [])
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
@@ -100,7 +88,7 @@ const Cancellation = ({
           action={handleInput}
           name='cancellation_terms'
           label=''
-          value={data && data.cancellation_terms}
+          value={tour && tour.cancellation_terms}
           rows='7'
         />
       </SingleWrapper>
@@ -126,9 +114,11 @@ const Cancellation = ({
 const mapStateToProps = state => ({
   toursTypes: state.tours.tour_types,
   secondary_nav: state.tourSection.secondary_nav,
+  tour: state.local_tour.tour,
 })
 
 export default connect(mapStateToProps, {
   setSecondaryNav,
   updateTour,
+  update_tour,
 })(Cancellation)

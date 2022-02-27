@@ -1,17 +1,58 @@
-import * as t from '../types'
+import {
+  GET_TOUR_TYPES_SUCCESS,
+  GET_TOUR_TYPES_FAIL,
+  ADD_TOUR_SUCCESS,
+  ADD_TOUR_FAIL,
+  UPDATE_TOUR_SUCCESS,
+  UPDATE_TOUR_FAIL,
+  GET_REGIONS_SUCCESS,
+  GET_REGIONS_FAIL,
+  GET_START_COUNTRIES_SUCCESS,
+  GET_FINISH_COUNTRIES_SUCCESS,
+  GET_COUNTRIES_FAIL,
+  GET_START_RUSSIAN_REGIONS_SUCCESS,
+  GET_FINISH_RUSSIAN_REGIONS_SUCCESS,
+  GET_RUSSIAN_REGIONS_FAIL,
+  GET_START_CITIES_SUCCESS,
+  GET_FINISH_CITIES_SUCCESS,
+  GET_CITIES_FAIL,
+  GET_TOUR_SUCCESS,
+  GET_TOUR_FAIL,
+  CLEAR_CURRENT_TOUR,
+  CLEAR_CURRENT_TOUR_FAIL,
+  GET_CURRENCIES_SUCCESS,
+  GET_CURRENCIES_FAIL,
+  GET_LANGUAGES_SUCCESS,
+  GET_LANGUAGES_FAIL,
+  SET_PROPERTY_IMAGE_SUCCESS,
+  SET_PROPERTY_IMAGE_FAIL,
+  SET_TOUR_DAY_IMAGE_SUCCESS,
+  SET_TOUR_DAY_IMAGE_FAIL,
+  ADD_DAY_SUCCESS,
+  ADD_DAY_FAIL,
+  SET_TOUR_IMAGE_SUCCESS,
+  SET_TOUR_IMAGE_FAIL,
+  GET_TOURS_SUCCESS,
+  GET_TOURS_FAIL,
+  ADD_ACTIVITY_SUCCESS,
+  ADD_ACTIVITY_FAIL,
+  UPDATE_ACTIVITY_SUCCESS,
+  UPDATE_ACTIVITY_FAIL,
+} from '../types'
 
 const initialState = {
-  current_tour: {},
+  tours: [],
   tour_types: [],
-  regions: [],
-  countries: [],
-  russian_regions: [],
-  cities: [],
   currencies: [],
   languages: [],
+  regions: [],
+  start_countries: [],
+  start_russian_regions: [],
+  start_cities: [],
+  finish_countries: [],
+  finish_russian_regions: [],
+  finish_cities: [],
 }
-
-
 
 const toursReducer = (state = initialState, action) => {
   const { type, payload } = action
@@ -21,7 +62,7 @@ const toursReducer = (state = initialState, action) => {
     arr.push(image)
     tour = {
       ...tour,
-      tour_property_images: arr
+      tour_property_images: arr,
     }
     return tour
   }
@@ -30,7 +71,7 @@ const toursReducer = (state = initialState, action) => {
     arr.push(image)
     tour = {
       ...tour,
-      tour_images: arr
+      tour_images: arr,
     }
     return tour
   }
@@ -45,134 +86,142 @@ const toursReducer = (state = initialState, action) => {
   }
 
   switch (type) {
-    case t.GET_TOUR_TYPES_SUCCESS:
+    case GET_TOURS_SUCCESS:
+      return {
+        ...state,
+        tours: payload,
+      }
+    case GET_TOUR_TYPES_SUCCESS:
       return {
         ...state,
         tour_types: payload,
       }
-    case t.ADD_TOUR_SUCCESS:
-    case t.UPDATE_TOUR_SUCCESS:
-    case t.GET_TOUR_SUCCESS:
+    case UPDATE_TOUR_FAIL:
+    case CLEAR_CURRENT_TOUR_FAIL:
       return {
         ...state,
-        current_tour: payload,
-      }
-    case t.UPDATE_TOUR_FAIL:
-    case t.CLEAR_CURRENT_TOUR_FAIL:
-      return {
-        ...state,
-      }
-    case t.CLEAR_CURRENT_TOUR:
-    case t.ADD_TOUR_FAIL:
-    case t.GET_TOUR_FAIL:
-      return {
-        ...state,
-        current_tour: {},
       }
 
-     
-    case t.GET_CURRENCIES_SUCCESS:
+    case GET_CURRENCIES_SUCCESS:
       return {
         ...state,
         currencies: payload,
       }
-    case t.GET_CURRENCIES_FAIL:
+    case GET_CURRENCIES_FAIL:
       return {
         ...state,
         currencies: [],
       }
-    case t.GET_LANGUAGES_SUCCESS:
+    case GET_LANGUAGES_SUCCESS:
       return {
         ...state,
         languages: payload,
       }
-    case t.GET_LANGUAGES_FAIL:
+    case GET_LANGUAGES_FAIL:
       return {
         ...state,
         languages: [],
       }
-    case t.SET_PROPERTY_IMAGE_SUCCESS:
+    case SET_PROPERTY_IMAGE_SUCCESS:
       return {
         ...state,
         current_tour: setPropertyImages(state.current_tour, payload),
       }
-    case t.SET_PROPERTY_IMAGE_FAIL:
+    case SET_PROPERTY_IMAGE_FAIL:
       return {
         ...state,
       }
-    case t.SET_TOUR_IMAGE_SUCCESS:
+    case SET_TOUR_IMAGE_SUCCESS:
       return {
         ...state,
         current_tour: setTourImages(state.current_tour, payload),
       }
-    case t.SET_TOUR_IMAGE_FAIL:
+    case SET_TOUR_IMAGE_FAIL:
       return {
         ...state,
       }
-    case t.ADD_DAY_SUCCESS:
+    case ADD_DAY_SUCCESS:
       return {
         ...state,
         current_tour: setDay(state.current_tour, payload),
       }
-    case t.ADD_DAY_FAIL:
+    case ADD_DAY_FAIL:
       return {
         ...state,
       }
-    case t.SET_TOUR_DAY_IMAGE_SUCCESS:
+    case SET_TOUR_DAY_IMAGE_SUCCESS:
       return {
         ...state,
         // current_tour: payload,
       }
-    case t.SET_TOUR_DAY_IMAGE_FAIL:
+    case SET_TOUR_DAY_IMAGE_FAIL:
       return {
         ...state,
       }
 
-    case t.GET_REGIONS_SUCCESS:
+    case GET_REGIONS_SUCCESS:
       return {
         ...state,
         regions: payload,
       }
-    case t.GET_COUNTRIES_SUCCESS:
+
+    case GET_START_COUNTRIES_SUCCESS:
       return {
         ...state,
-        countries: payload,
+        start_countries: payload,
       }
-    case t.GET_RUSSIAN_REGIONS_SUCCESS:
+    case GET_START_RUSSIAN_REGIONS_SUCCESS:
       return {
         ...state,
-        russian_regions: payload,
+        start_russian_regions: payload,
       }
-    case t.GET_CITIES_SUCCESS:
+    case GET_START_CITIES_SUCCESS:
       return {
         ...state,
-        cities: payload,
+        start_cities: payload,
       }
-    case t.GET_REGIONS_FAIL:
+
+    case GET_FINISH_COUNTRIES_SUCCESS:
+      return {
+        ...state,
+        finish_countries: payload,
+      }
+    case GET_FINISH_RUSSIAN_REGIONS_SUCCESS:
+      return {
+        ...state,
+        finish_russian_regions: payload,
+      }
+    case GET_FINISH_CITIES_SUCCESS:
+      return {
+        ...state,
+        finish_cities: payload,
+      }
+
+    case GET_REGIONS_FAIL:
       return {
         ...state,
         regions: [],
       }
-    case t.GET_COUNTRIES_FAIL:
+    case GET_COUNTRIES_FAIL:
       return {
         ...state,
         countries: [],
       }
-    case t.GET_RUSSIAN_REGIONS_FAIL:
+    case GET_RUSSIAN_REGIONS_FAIL:
       return {
         ...state,
         russian_regions: [],
       }
-    case t.GET_CITIES_FAIL:
+    case GET_CITIES_FAIL:
       return {
         ...state,
         cities: [],
       }
-    case t.ZEROING_DATA:
-      return {
-        ...state,
-        current_tour: {},
-      }
+    // case ZEROING_DATA:
+    //   return {
+    //     ...state,
+    //     current_tour: {},
+    //   }
 
     default:
       return state

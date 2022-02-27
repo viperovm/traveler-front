@@ -9,16 +9,12 @@ import SelectInput from '../FormFields/SelectInput'
 import CheckboxInput from '../FormFields/CheckboxInput'
 import Button from './Button'
 
+import CircularProgress from '@mui/material/CircularProgress'
+
 import { connect } from 'react-redux'
-import { setTourName } from '../../../redux/actions/tourSectionActions'
 import {
-  getTourTypes,
-  getRegions,
-  getCountries,
-  getRussianRegions,
-  getCities,
   updateTour,
-  addDay,
+  addActivity,
 } from '../../../redux/actions/toursActions'
 import {
   setActiveSections,
@@ -26,16 +22,14 @@ import {
 } from '../../../redux/actions/tourSectionActions'
 import Modal from './Modal'
 import TrippleWrapper from '../Wrappers/TrippleWrapper'
-import Day from './Day'
+import Activity from './Activity'
 
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 
-
-function TabPanel({ children, value, index,  }) {
-
+function TabPanel({ children, value, index }) {
   return (
     <div
       role='tabpanel'
@@ -59,21 +53,20 @@ function a11yProps(index) {
   }
 }
 
-const Days = ({
+const Activities = ({
   tour,
   action,
-  getRegions,
   secondary_nav,
   setSecondaryNav,
   updateTour,
-  addDay,
+  addActivity,
 }) => {
   const [data, setData] = useState([])
   const [completed, setCompleted] = useState(false)
 
   const [value, setValue] = useState(0)
 
-  const [days, setDays] = useState([1])
+  const [activities, setActivities] = useState([1])
   const [loading, setLoading] = useState(false)
 
   const handleChange = (event, newValue) => {
@@ -81,23 +74,27 @@ const Days = ({
   }
 
   useEffect(() => {
-    if (tour) {
-      setData(tour.tour_days)
+    if (tour && tour.plan && tour.plan.length === 0) {
+      addActivity(tour.id)
+      setLoading(true)
+    } else if (tour && tour.plan && tour.plan.length !== 0) {
+        setLoading(false)
     }
-    let arr = []
-    for (let i = 1; i <= tour.tour_days.length; i++) {
-      arr.push(i)
-    }
-    setDays(arr)
   }, [tour])
 
-  
+  useEffect(() => {
+    if (tour) {
+      setActivityData(tour.plan)
+    }
+    let arr = []
+    for (let i = 1; i <= tour.plan.length; i++) {
+      arr.push(i)
+    }
+    setActivities(arr)
+  }, [tour])
 
-  console.log('days data: ', data)
-  console.log(tour.id)
-
-  const handleInput = (value, id) => {
-    let arr = data.filter(item => item.day_id !== id)
+  const handleActivityInput = (value, id) => {
+    let arr = data.filter(item => item.id !== id)
     arr.push(value)
     setData(arr)
   }
@@ -105,11 +102,8 @@ const Days = ({
   useEffect(() => {
     if (data) {
       if (
-        data.day &&
-        data.location &&
-        data.day_description &&
-        data.day_photo &&
-        data.day_route
+        data.image &&
+        data.description
       ) {
         setCompleted(true)
         let arr = secondary_nav
@@ -145,14 +139,14 @@ const Days = ({
   }, [data])
 
   useEffect(() => {
-    if (days && loading) {
+    if (activities && loading) {
       setLoading(false)
     }
-  }, [days, loading])
+  }, [activities, loading])
 
   const handleDayAdd = () => {
     setLoading(true)
-    addDay(tour.id)
+    addActivity(tour.id)
   }
 
   const handleButtonSubmit = () => {
@@ -166,72 +160,59 @@ const Days = ({
 
   return (
     <>
-      {data.length > 1 && (
+      {!loading && data.length > 1 && (
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs
               value={value}
-              onChange={handleChange}
+              onChange={handleTabChange}
               aria-label='basic tabs example'
               variant='scrollable'
               scrollButtons='auto'
             >
-              {days.map((item, index) => (
+              {activities.map((item, index) => (
                 <Tab key={index} label={`День ${item}`} {...a11yProps(index)} />
               ))}
             </Tabs>
           </Box>
           {data.map((item, index) => (
             <TabPanel key={index} value={value} index={index}>
-              <Day id={index + 1} action={handleInput} day={item} />
+              <Activity
+                id={index + 1}
+                action={handleActivityInput}
+                day={item}
+              />
             </TabPanel>
           ))}
         </Box>
       )}
-      {data.length === 1 && <Day id={data[0]} action={handleInput} />}
+      {data.length === 1 && (
+        <Activity id={data[0]} action={handleActivityInput} />
+      )}
+      {loading && (
+        <div className='fake-file-input loader-spinner'>
+          <Box sx={{ display: 'flex' }}>
+            <CircularProgress />
+          </Box>
+        </div>
+      )}
       <Button
         active={true}
         action={handleDayAdd}
         color='button-primary'
-        text='Добавить день'
+        text='Добавить активность'
       />
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          width: '66%',
-        }}
-      >
-        <Button
-          color='button-primary'
-          active={true}
-          action={handleButtonBack}
-          text='Назад'
-        />
-        <Button active={true} action={handleButtonSubmit} />
-      </div>
     </>
   )
 }
 
 const mapStateToProps = state => ({
-  toursTypes: state.tours.tour_types,
-  regions: state.tours.regions,
-  countries: state.tours.countries,
-  russianRegions: state.tours.russian_regions,
-  cities: state.tours.cities,
   secondary_nav: state.tourSection.secondary_nav,
   tour: state.local_tour.tour,
 })
 
 export default connect(mapStateToProps, {
-  setTourName,
-  getTourTypes,
-  getRegions,
-  getCountries,
-  getRussianRegions,
-  getCities,
-  setSecondaryNav,
   updateTour,
-  addDay,
-})(Days)
+  addActivity,
+  setSecondaryNav,
+})(Activities)

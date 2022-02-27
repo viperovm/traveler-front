@@ -14,13 +14,6 @@ export const setCurrentSection = (str) => dispatch => {
     })
 }
 
-export const setTourName = str => dispatch => {
-  dispatch({
-    type: t.SET_TOUR_NAME,
-    payload: str,
-  })
-}
-
 export const setActiveSections = (status, str) => async dispatch => {
   let type = status ? t.SET_ACTIVE_SECTION : t.DELETE_ACTIVE_SECTION
   dispatch({
